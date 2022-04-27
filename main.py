@@ -21,22 +21,27 @@ class UI(QtWidgets.QMainWindow):
         self.ui.codeLayout.addWidget(self.__editor)
 
         font = QFont()
-        font.setFamily('Courier')
+        font.setFamily('Arial Black')
         font.setFixedPitch(True)
-        font.setPointSize(12)
+        font.setPointSize(9)
 
         lexer = QsciLexerPython()
         lexer.setDefaultFont(font)
+        lexer.setDefaultPaper(QColor("#000000"))
+        lexer.setDefaultColor(QColor("#186A0D"))
         self.__editor.setLexer(lexer)
         self.__editor.setUtf8(True)  # Set encoding to UTF-8
         self.__editor.setFont(font)
         self.__editor.setMarginsFont(font)
+        self.__editor.setSelectionBackgroundColor(QColor("#186A0D"))
+
 
         fontmetrics = QFontMetrics(font)
         self.__editor.setMarginsFont(font)
-        self.__editor.setMarginWidth(0, fontmetrics.width("0000") + 6)
+        self.__editor.setMarginWidth(0, fontmetrics.width("0000") + 1)
         self.__editor.setMarginLineNumbers(0, True)
-        self.__editor.setMarginsBackgroundColor(QColor("#cccccc"))
+        self.__editor.setMarginsBackgroundColor(QColor("#000000"))
+
 
         ports = list_ports.comports()
 
