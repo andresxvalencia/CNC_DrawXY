@@ -6,9 +6,9 @@ import serial.tools.list_ports as list_ports
 import sys
 
 
-class Monitor(QtWidgets.QMainWindow):
+class UI(QtWidgets.QMainWindow):
     def __init__(self):
-        super(Monitor, self).__init__()
+        super(UI, self).__init__()
 
         self.ui = uic.loadUi('GUI/GUIDrawXY.ui', self)
         self.serial = serial.Serial()
@@ -93,6 +93,6 @@ class Monitor(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    monitor = Monitor()
-    monitor.show()
+    ui = UI()
+    ui.show()
     app.exec_()
