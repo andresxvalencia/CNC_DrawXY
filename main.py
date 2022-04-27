@@ -22,7 +22,6 @@ class UI(QtWidgets.QMainWindow):
 
         font = QFont()
         font.setFamily('Courier')
-        # Courier
         font.setFixedPitch(True)
         font.setPointSize(12)
 
@@ -52,12 +51,17 @@ class UI(QtWidgets.QMainWindow):
             self.serial.baudrate = 115200
             self.serial.port = self.ui.portOptions.currentText()
             self.serial.open()
+
         self.ui.sendButton.clicked.connect(self.send)
         self.ui.upButton.clicked.connect(self.up_movement)
         self.ui.downButton.clicked.connect(self.down_movement)
         self.ui.rightButton.clicked.connect(self.right_movement)
         self.ui.leftButton.clicked.connect(self.left_movement)
         self.ui.pencilButton.clicked.connect(self.pencil_movement)
+        self.ui.leftDownButton.clicked.connect(self.leftDown_movement)
+        self.ui.rightUpButton.clicked.connect(self.rightUp_movement)
+        self.ui.leftUpButton.clicked.connect(self.leftUp_movement)
+        self.ui.rightUpButton.clicked.connect(self.rightUp_movement)
 
         self.timer = QtCore.QTimer()
         if self.serial.is_open:
@@ -91,6 +95,22 @@ class UI(QtWidgets.QMainWindow):
 
     def right_movement(self):
         self.send_message('G21G91X1F10')
+        self.send_message('G90G21')
+
+    def rightUp_movement(self):
+        self.send_message('G21G91X1Y1F10')
+        self.send_message('G90G21')
+
+    def rightDown_movement(self):
+        self.send_message('G21G91X1Y-1F10')
+        self.send_message('G90G21')
+
+    def leftUp_movement(self):
+        self.send_message('G21G91X-1Y1F10')
+        self.send_message('G90G21')
+
+    def leftDown_movement(self):
+        self.send_message('G21G91X-1Y-1F10')
         self.send_message('G90G21')
 
     def pencil_movement(self):
