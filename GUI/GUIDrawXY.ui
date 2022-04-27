@@ -908,27 +908,8 @@ height: 75%;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <item row="2" column="2">
-              <widget class="QLineEdit" name="inputEdit">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 75 8pt &quot;Times New Roman&quot;;
-color: #186a0d;
-border-radius: 5px;
-border: 1px solid #20de07;</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="3">
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="3" column="3">
               <widget class="QComboBox" name="portOptions">
                <property name="styleSheet">
                 <string notr="true">border-color: rgb(0,255,0);
@@ -940,7 +921,7 @@ border: 1px solid #20de07;</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="5">
+             <item row="3" column="5">
               <widget class="QPushButton" name="sendButton">
                <property name="styleSheet">
                 <string notr="true">QPushButton{
@@ -961,21 +942,71 @@ border-radius:5px;
                </property>
               </widget>
              </item>
-             <item row="0" column="0" colspan="6">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap>../../../../../Downloads/GUI/GUI/imagenes/GUI.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
+             <item row="3" column="4">
+              <widget class="QComboBox" name="baudOptions">
+               <property name="styleSheet">
+                <string notr="true">border-color: rgb(0,255,0);
+alternate-background-color: rgb(0, 255, 0);
+color: rgb(0, 255, 0);
+selection-background-color: rgb(0, 255, 0);
+border-top-color: rgb(0, 255, 0);
+border: 1px solid #20de07;</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0" colspan="6">
+             <item row="3" column="0" colspan="2">
+              <widget class="QLabel" name="label">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 87 9pt &quot;Arial Black&quot;;
+color: #186a0d;</string>
+               </property>
+               <property name="text">
+                <string>Comando:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLineEdit" name="inputEdit">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 75 8pt &quot;Times New Roman&quot;;
+color: #186a0d;
+border-radius: 5px;
+border: 1px solid #20de07;</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="6">
               <widget class="QTextBrowser" name="textEdit">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>350</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>350</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true">background-color: rgb(0, 0, 0);
 border: 1px solid #20de07;
@@ -997,34 +1028,25 @@ p, li { white-space: pre-wrap; }
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="label">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 87 9pt &quot;Arial Black&quot;;
-color: #186a0d;</string>
-               </property>
+             <item row="0" column="0" colspan="2">
+              <widget class="QLabel" name="label_10">
                <property name="text">
-                <string>Comando:</string>
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap>../../../../../Downloads/GUI/GUI/imagenes/GUI.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
-             <item row="2" column="4">
-              <widget class="QComboBox" name="baudOptions">
-               <property name="styleSheet">
-                <string notr="true">border-color: rgb(0,255,0);
-alternate-background-color: rgb(0, 255, 0);
-color: rgb(0, 255, 0);
-selection-background-color: rgb(0, 255, 0);
-border-top-color: rgb(0, 255, 0);
-border: 1px solid #20de07;</string>
+             <item row="1" column="0" colspan="6">
+              <layout class="QGridLayout" name="codeLayout">
+               <property name="sizeConstraint">
+                <enum>QLayout::SetMaximumSize</enum>
                </property>
-              </widget>
+              </layout>
              </item>
             </layout>
            </widget>
