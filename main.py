@@ -1,20 +1,20 @@
-from PyQt5 import QtWidgets, uic
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.Qsci import *
+from PyQt5.QtWidgets import QFileDialog
 import serial
 import serial.tools.list_ports as list_ports
 import sys
+import time
 import view3d
+
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
         super(UI, self).__init__()
 
-        self.ui = uic.loadUi('GUI/GUIDrawXY.ui', self)
+        self.ui = uic.loadUi('GUIFuncional/GUIDrawXY.ui', self)
         self.serial = serial.Serial()
 
         self.__editor = QsciScintilla()
@@ -35,13 +35,15 @@ class UI(QtWidgets.QMainWindow):
         self.__editor.setMarginsFont(font)
         self.__editor.setSelectionBackgroundColor(QColor("#186A0D"))
 
+        self.__editor.setCaretForegroundColor(QColor("#20de07"))  # Configuración del signo de intercalación
 
-        fontmetrics = QFontMetrics(font)
+        fontmetrics = QFontMetrics(font)  # Características del Margen
         self.__editor.setMarginsFont(font)
+        self.__editor.setMarginsForegroundColor(QColor("#20de07"))
+        self.__editor.setMarginsBackgroundColor(QColor("#20de07"))
         self.__editor.setMarginWidth(0, fontmetrics.width("0000") + 1)
         self.__editor.setMarginLineNumbers(0, True)
-        self.__editor.setMarginsBackgroundColor(QColor("#000000"))
-
+        self.__editor.setMarginsBackgroundColor(QColor("#193817"))
 
         ports = list_ports.comports()
 
@@ -63,15 +65,17 @@ class UI(QtWidgets.QMainWindow):
         self.ui.rightButton.clicked.connect(self.right_movement)
         self.ui.leftButton.clicked.connect(self.left_movement)
         self.ui.pencilButton.clicked.connect(self.pencil_movement)
-        self.ui.leftDownButton.clicked.connect(self.leftDown_movement)
-        self.ui.rightUpButton.clicked.connect(self.rightUp_movement)
-        self.ui.leftUpButton.clicked.connect(self.leftUp_movement)
-        self.ui.rightUpButton.clicked.connect(self.rightUp_movement)
+        self.ui.leftDownButton.clicked.connect(self.leftdown_movement)
+        self.ui.rightUpButton.clicked.connect(self.rightup_movement)
+        self.ui.leftUpButton.clicked.connect(self.leftup_movement)
+        self.ui.rightUpButton.clicked.connect(self.rightup_movement)
 
         self.timer = QtCore.QTimer()
         if self.serial.is_open:
             self.timer.start(10)
             self.timer.timeout.connect(self.read)
+
+        self.ui.openButton.clicked.connect(self.openFile)
 
     def send(self):
         data = self.ui.inputEdit.text() + '\n'
@@ -102,19 +106,19 @@ class UI(QtWidgets.QMainWindow):
         self.send_message('G21G91X1F10')
         self.send_message('G90G21')
 
-    def rightUp_movement(self):
+    def rightup_movement(self):
         self.send_message('G21G91X1Y1F10')
         self.send_message('G90G21')
 
-    def rightDown_movement(self):
+    def rightdown_movement(self):
         self.send_message('G21G91X1Y-1F10')
         self.send_message('G90G21')
 
-    def leftUp_movement(self):
+    def leftup_movement(self):
         self.send_message('G21G91X-1Y1F10')
         self.send_message('G90G21')
 
-    def leftDown_movement(self):
+    def leftdown_movement(self):
         self.send_message('G21G91X-1Y-1F10')
         self.send_message('G90G21')
 
@@ -136,6 +140,37 @@ class UI(QtWidgets.QMainWindow):
         data = message + '\n'
         self.serial.write(data.encode('utf-8'))
         # lectura = self.serial.readline().decode('utf-8')
+
+    def execute_code(self, filename):
+        # s = serial.Serial(self.ui.portOptions.currentText(), 115200)
+
+        f = open(filename, 'r')
+
+        # s.write("\n\n".encode('utf-8'))
+        time.sleep(2)
+        # s.flushInput()
+
+        for line in f:
+            lecture = line.strip()
+            if not lecture.startswith('(') and not lecture.startswith('%'):
+                self.__editor.append(lecture + '\n')
+                # print('Sending: ' + lecture)
+                # s.write((lecture + '\n').encode('utf-8'))
+                # grbl_out = s.readline().decode('utf-8')
+                # print(': ' + grbl_out.strip())
+
+        # input("  Press <Enter> to exit and disable grbl.")
+
+        f.close()
+        # s.close()
+
+    def openFile(self):
+        filename = QFileDialog.getOpenFileName(self, "Open file", r"C:\Users\cocuy\Dropbox\My PC ("
+                                                                  r"LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1"
+                                                                  r"\Sistemas Embebidos\GitHub\CNC_DrawXY\Imagenes "
+                                                                  r"GCODE",
+                                               "*.gcode, *.ngc")[0]
+        self.execute_code(filename)
 
     def __del__(self):
         if self.serial.is_open:
