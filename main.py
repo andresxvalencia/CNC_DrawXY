@@ -169,7 +169,7 @@ class UI(QtWidgets.QMainWindow):
 
     def openFile(self):
         path = r"C:\Users\cocuy\Dropbox\My PC (LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1\Sistemas " \
-               r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE "
+               r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE\ "
         filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                "*.gcode, *.ngc")[0]
         self.execute_code(filename)
