@@ -1081,25 +1081,6 @@ border-radius:10px;
               </size>
              </property>
             </widget>
-            <widget class="QLabel" name="label_3">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>67</y>
-               <width>188</width>
-               <height>411</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap>imagenes/plano1.png</pixmap>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
             <widget class="QPushButton" name="pushButton_19">
              <property name="geometry">
               <rect>
@@ -1157,6 +1138,17 @@ border-radius:10px;
                <height>30</height>
               </size>
              </property>
+            </widget>
+            <widget class="QWidget" name="gridLayoutWidget">
+             <property name="geometry">
+              <rect>
+               <x>9</x>
+               <y>89</y>
+               <width>211</width>
+               <height>291</height>
+              </rect>
+             </property>
+             <layout class="QGridLayout" name="viewLayout"/>
             </widget>
            </widget>
           </item>

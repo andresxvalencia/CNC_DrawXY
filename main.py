@@ -70,6 +70,9 @@ class UI(QtWidgets.QMainWindow):
         self.ui.leftUpButton.clicked.connect(self.leftup_movement)
         self.ui.rightUpButton.clicked.connect(self.rightup_movement)
 
+        self.view_3D = view3d.View3D()
+        self.ui.viewLayout.addWidget(self.view_3D)
+
         self.timer = QtCore.QTimer()
         if self.serial.is_open:
             self.timer.start(10)
@@ -165,12 +168,17 @@ class UI(QtWidgets.QMainWindow):
         # s.close()
 
     def openFile(self):
-        filename = QFileDialog.getOpenFileName(self, "Open file", r"C:\Users\cocuy\Dropbox\My PC ("
-                                                                  r"LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1"
-                                                                  r"\Sistemas Embebidos\GitHub\CNC_DrawXY\Imagenes "
-                                                                  r"GCODE",
+        path = r"C:\Users\cocuy\Dropbox\My PC (LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1\Sistemas " \
+               r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE "
+        filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                "*.gcode, *.ngc")[0]
         self.execute_code(filename)
+        self.drawFigure(filename)
+
+    def drawFigure(self, filename):
+        gcode = open(filename).read()
+        self.view_3D.compute_data(gcode)
+        self.view_3D.draw()
 
     def __del__(self):
         if self.serial.is_open:
