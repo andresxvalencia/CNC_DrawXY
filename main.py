@@ -158,7 +158,7 @@ class UI(QtWidgets.QMainWindow):
             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.__editor.append(lecture + '\n')
                 # print('Sending: ' + lecture)
-                # s.write((lecture + '\n').encode('utf-8'))
+                self.send_message(lecture)
                 # grbl_out = s.readline().decode('utf-8')
                 # print(': ' + grbl_out.strip())
 
