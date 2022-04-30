@@ -69,7 +69,7 @@ class UI(QtWidgets.QMainWindow):
         self.ui.leftDownButton.clicked.connect(self.leftdown_movement)
         self.ui.rightUpButton.clicked.connect(self.rightup_movement)
         self.ui.leftUpButton.clicked.connect(self.leftup_movement)
-        self.ui.rightUpButton.clicked.connect(self.rightup_movement)
+        self.ui.rightDownButton.clicked.connect(self.rightdown_movement)
         self.ui.playButton.clicked.connect(self.play)
         self.ui.resetZeroButton.clicked.connect(self.resetZero)
         self.ui.returnZeroButton.clicked.connect(self.returnZero)
