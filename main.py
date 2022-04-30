@@ -14,7 +14,6 @@ class UI(QtWidgets.QMainWindow):
     def __init__(self):
         super(UI, self).__init__()
 
-        self.filename = None
         self.ui = uic.loadUi('GUIFuncional/GUIDrawXY.ui', self)
         self.serial = serial.Serial()
 
@@ -70,6 +69,9 @@ class UI(QtWidgets.QMainWindow):
         self.ui.rightUpButton.clicked.connect(self.rightup_movement)
         self.ui.leftUpButton.clicked.connect(self.leftup_movement)
         self.ui.rightUpButton.clicked.connect(self.rightup_movement)
+        self.ui.playButton.clicked.connect(self.play)
+        self.ui.resetZeroButton.clicked.connect(self.resetZero)
+        self.ui.returnZeroButton.clicked.connect(self.returnZero)
 
         self.view_3D = view3d.View3D()
         self.ui.viewLayout.addWidget(self.view_3D)
@@ -95,35 +97,35 @@ class UI(QtWidgets.QMainWindow):
                 self.ui.textEdit.setText(text)
 
     def up_movement(self):
-        self.send_message('G21G91G1Y1F10')
+        self.send_message('G21G91G1Y1F3000')
         self.send_message('G90G21')
 
     def down_movement(self):
-        self.send_message('G21G91G1Y-1F10')
+        self.send_message('G21G91G1Y-1F3000')
         self.send_message('G90G21')
 
     def left_movement(self):
-        self.send_message('G21G91X-1F10')
+        self.send_message('G21G91G1X-1F3000')
         self.send_message('G90G21')
 
     def right_movement(self):
-        self.send_message('G21G91X1F10')
+        self.send_message('G21G91G1X1F3000')
         self.send_message('G90G21')
 
     def rightup_movement(self):
-        self.send_message('G21G91X1Y1F10')
+        self.send_message('G21G91G1X1Y1F3000')
         self.send_message('G90G21')
 
     def rightdown_movement(self):
-        self.send_message('G21G91X1Y-1F10')
+        self.send_message('G21G91G1X1Y-1F3000')
         self.send_message('G90G21')
 
     def leftup_movement(self):
-        self.send_message('G21G91X-1Y1F10')
+        self.send_message('G21G91G1X-1Y1F3000')
         self.send_message('G90G21')
 
     def leftdown_movement(self):
-        self.send_message('G21G91X-1Y-1F10')
+        self.send_message('G21G91G1X-1Y-1F3000')
         self.send_message('G90G21')
 
     def pencil_movement(self):
@@ -145,37 +147,53 @@ class UI(QtWidgets.QMainWindow):
         self.serial.write(data.encode('utf-8'))
         # lectura = self.serial.readline().decode('utf-8')
 
-    def execute_code(self):
 
-        f = open(self.filename, 'r')
+    def execute_code(self, filename):
+        # s = serial.Serial(self.ui.portOptions.currentText(), 115200)
+
+        f = open(filename, 'r')
+
+        # s.write("\n\n".encode('utf-8'))
         time.sleep(2)
+        # s.flushInput()
 
         for line in f:
             lecture = line.strip()
             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.__editor.append(lecture + '\n')
+                # print('Sending: ' + lecture)
                 self.send_message(lecture)
+                # grbl_out = s.readline().decode('utf-8')
+                # print(': ' + grbl_out.strip())
 
-    def send_code(self):
-        f = open(self.filename, 'r')
-        self.send_message("\n\n".encode('utf-8'))
-        for line in f:
-            lecture = line.strip()
-            if not lecture.startswith('(') and not lecture.startswith('%'):
-                self.send_message(lecture)
+        # input("  Press <Enter> to exit and disable grbl.")
+
+        f.close()
+        # s.close()
 
     def openFile(self):
-        path = r"C:\Users\cocuy\Dropbox\My PC (LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1\Sistemas " \
-               r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE\ "
-        self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
-                                                    "*.gcode, *.ngc")[0]
-        self.execute_code()
-        self.drawFigure()
+        path = r"C:\Users\valen\PycharmProjects\CNC " \
+               r"\CNC_DrawXY\Imagenes GCODE\ "
+        filename = QFileDialog.getOpenFileName(self, "Open file", path,
+                                               "*.gcode, *.ngc")[0]
+        self.execute_code(filename)
+        self.drawFigure(filename)
 
-    def drawFigure(self):
-        gcode = open(self.filename).read()
+    def drawFigure(self, filename):
+        gcode = open(filename).read()
         self.view_3D.compute_data(gcode)
         self.view_3D.draw()
+
+    def play(self):
+        pass
+
+    def resetZero(self):
+        self.send_message('G10 P0 L20 X0 Y0 Z0')
+
+    def returnZero(self):
+        self.send_message('G21G90 G0Z5')
+        self.send_message('G90 G0 X0 Y0')
+        self.send_message('G90 G0 Z0')
 
     def __del__(self):
         if self.serial.is_open:
@@ -187,3 +205,5 @@ if __name__ == "__main__":
     ui = UI()
     ui.show()
     app.exec_()
+
+
