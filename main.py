@@ -173,7 +173,7 @@ class UI(QtWidgets.QMainWindow):
 
     def play(self):
         f = open(self.filename, 'r')
-        self.send_message("\n\n".encode('utf-8'))
+        self.send_message("\n\n")
         for line in f:
             lecture = line.strip()
             if not lecture.startswith('(') and not lecture.startswith('%'):
