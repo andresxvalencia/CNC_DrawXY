@@ -14,6 +14,7 @@ class UI(QtWidgets.QMainWindow):
     def __init__(self):
         super(UI, self).__init__()
 
+        self.filename = None
         self.ui = uic.loadUi('GUIFuncional/GUIDrawXY.ui', self)
         self.serial = serial.Serial()
 
@@ -144,39 +145,35 @@ class UI(QtWidgets.QMainWindow):
         self.serial.write(data.encode('utf-8'))
         # lectura = self.serial.readline().decode('utf-8')
 
-    def execute_code(self, filename):
-        # s = serial.Serial(self.ui.portOptions.currentText(), 115200)
+    def execute_code(self):
 
-        f = open(filename, 'r')
-
-        # s.write("\n\n".encode('utf-8'))
+        f = open(self.filename, 'r')
         time.sleep(2)
-        # s.flushInput()
 
         for line in f:
             lecture = line.strip()
             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.__editor.append(lecture + '\n')
-                # print('Sending: ' + lecture)
                 self.send_message(lecture)
-                # grbl_out = s.readline().decode('utf-8')
-                # print(': ' + grbl_out.strip())
 
-        # input("  Press <Enter> to exit and disable grbl.")
-
-        f.close()
-        # s.close()
+    def send_code(self):
+        f = open(self.filename, 'r')
+        self.send_message("\n\n".encode('utf-8'))
+        for line in f:
+            lecture = line.strip()
+            if not lecture.startswith('(') and not lecture.startswith('%'):
+                self.send_message(lecture)
 
     def openFile(self):
         path = r"C:\Users\cocuy\Dropbox\My PC (LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1\Sistemas " \
                r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE\ "
-        filename = QFileDialog.getOpenFileName(self, "Open file", path,
-                                               "*.gcode, *.ngc")[0]
-        self.execute_code(filename)
-        self.drawFigure(filename)
+        self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
+                                                    "*.gcode, *.ngc")[0]
+        self.execute_code()
+        self.drawFigure()
 
-    def drawFigure(self, filename):
-        gcode = open(filename).read()
+    def drawFigure(self):
+        gcode = open(self.filename).read()
         self.view_3D.compute_data(gcode)
         self.view_3D.draw()
 
