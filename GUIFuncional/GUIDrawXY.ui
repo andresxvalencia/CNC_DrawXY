@@ -642,7 +642,7 @@ height: 75%;
 }</string>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>1</number>
                   </property>
                   <widget class="QWidget" name="tab">
                    <attribute name="title">
@@ -843,7 +843,7 @@ height: 75%;
                     <item>
                      <layout class="QVBoxLayout" name="verticalLayout">
                       <item>
-                       <widget class="QPushButton" name="pushButton_15">
+                       <widget class="QPushButton" name="resetZeroButton">
                         <property name="styleSheet">
                          <string notr="true">heidth: 100%;</string>
                         </property>
@@ -863,7 +863,7 @@ height: 75%;
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_16">
+                       <widget class="QPushButton" name="returnZeroButton">
                         <property name="text">
                          <string>Return to Zero</string>
                         </property>
@@ -1081,7 +1081,7 @@ border-radius:10px;
               </size>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_19">
+            <widget class="QPushButton" name="playButton">
              <property name="geometry">
               <rect>
                <x>10</x>
@@ -1110,7 +1110,7 @@ border-radius:10px;
               </size>
              </property>
             </widget>
-            <widget class="QPushButton" name="pushButton_20">
+            <widget class="QPushButton" name="stopButton">
              <property name="geometry">
               <rect>
                <x>90</x>
