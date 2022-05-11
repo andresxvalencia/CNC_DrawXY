@@ -132,7 +132,7 @@ class UI(QtWidgets.QMainWindow):
     def pencil_movement(self):
         if self.pencilLabel.text() == 'OFF':
             self.pencilLabel.setText('ON')
-            self.send_message('M03 S090')
+            self.send_message('M03 S050')
             # self.send_message('G90G21')
 
         elif self.pencilLabel.text() == 'ON':
@@ -148,6 +148,7 @@ class UI(QtWidgets.QMainWindow):
         self.serial.write(data.encode('utf-8'))
 
     def execute_code(self):
+
         f = open(self.filename, 'r')
         time.sleep(2)
 
@@ -159,8 +160,7 @@ class UI(QtWidgets.QMainWindow):
         self.ui.playButton.clicked.connect(self.play)
 
     def openFile(self):
-        path = r"C:\Users\cocuy\Dropbox\My PC (LAPTOP-7D3H6IAV)\Documents\Universidad\2022-1\Sistemas " \
-               r"Embebidos\GitHub\CNC_DrawXY\Imagenes GCODE\ "
+        path = '/home/andresxvalencia/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE'
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                     "*.gcode, *.ngc")[0]
         self.execute_code()
@@ -175,9 +175,11 @@ class UI(QtWidgets.QMainWindow):
         f = open(self.filename, 'r')
         self.send_message("\n\n")
         for line in f:
-            lecture = line.strip()
-            if not lecture.startswith('(') and not lecture.startswith('%'):
+             lecture = line.strip()
+             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.send_message(lecture)
+                grbl_out = self.serial.readline().decode('utf-8')
+
         f.close()
 
     def resetZero(self):
