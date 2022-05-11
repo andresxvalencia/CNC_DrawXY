@@ -569,7 +569,7 @@ color: #186a0d;</string>
                     <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
-                  <widget class="QLabel" name="label_9">
+                  <widget class="QLabel" name="pencilLabel">
                    <property name="geometry">
                     <rect>
                      <x>120</x>
