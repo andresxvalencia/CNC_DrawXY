@@ -9,6 +9,24 @@ import sys
 import time
 import view3d
 
+class ReadPort(QtCore.QObject):
+    update = QtCore.pyqtSignal(str)
+
+    def __init__(self, serial):
+        super().__init__()
+        self.serial = serial
+
+    def run(self):
+        while True:
+            if self.serial.is_open:
+                try:
+                    if self.serial.in_waiting > 0:
+                        data = self.serial.read()
+                        data = data.replace(b'\r', b'')
+                        text = data.decode('iso-8859-1')
+                        self.update.emit(text)
+                except:
+                    pass
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -73,14 +91,22 @@ class UI(QtWidgets.QMainWindow):
         self.ui.playButton.clicked.connect(self.play)
         self.ui.resetZeroButton.clicked.connect(self.resetZero)
         self.ui.returnZeroButton.clicked.connect(self.returnZero)
+        self.ui.connectButton.clicked.connect(self.connect)
 
         self.view_3D = view3d.View3D()
         self.ui.viewLayout.addWidget(self.view_3D)
 
-        self.timer = QtCore.QTimer()
-        if self.serial.is_open:
-            self.timer.start(10)
-            self.timer.timeout.connect(self.read)
+        #self.timer = QtCore.QTimer()
+        #if self.serial.is_open:
+        #    self.timer.start(10)
+        #    self.timer.timeout.connect(self.read)
+
+        self.thread = QtCore.QThread()
+
+        self.readPort = ReadPort(self.serial)
+
+        self.readPort.moveToThread(self.thread)
+        self.thread.started.connect(self.readPort.run)
 
         self.ui.openButton.clicked.connect(self.openFile)
 
@@ -96,6 +122,22 @@ class UI(QtWidgets.QMainWindow):
                 text = self.ui.textEdit.toPlainText()
                 text += data.decode('utf-8')
                 self.ui.textEdit.setText(text)
+
+    def connect(self):
+        if not self.serial.is_open:
+            self.serial.open()
+            # self.readTimer.start(10)
+            self.thread.start()
+            self.ui.sendButton.setEnabled(True)
+            #self.ui.connectButton.setText('Disconnect')
+            #self.ui.inputEdit.setEnabled(True)
+        else:
+            self.thread.quit()
+            self.serial.close()
+            # self.readTimer.stop()
+            self.ui.sendButton.setEnabled(False)
+            #self.ui.connectButton.setText('Connect')
+            #self.ui.inputEdit.setEnabled(False)
 
     def up_movement(self):
         self.send_message('G21G91G1Y1F3000')

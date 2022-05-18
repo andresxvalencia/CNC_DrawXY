@@ -110,7 +110,7 @@ border-radius:20px;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>imagenes/DrawXYLogo.png</pixmap>
+             <pixmap>../../../../.designer/backup/imagenes/DrawXYLogo.png</pixmap>
             </property>
             <property name="margin">
              <number>0</number>
@@ -130,7 +130,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/archivo.svg</normaloff>imagenes/archivo.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/archivo.svg</normaloff>../../../../.designer/backup/imagenes/archivo.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -153,7 +153,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/info.svg</normaloff>imagenes/info.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/info.svg</normaloff>../../../../.designer/backup/imagenes/info.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -176,7 +176,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/ajustes.svg</normaloff>imagenes/ajustes.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/ajustes.svg</normaloff>../../../../.designer/backup/imagenes/ajustes.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -215,7 +215,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/minimizar.svg</normaloff>imagenes/minimizar.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/minimizar.svg</normaloff>../../../../.designer/backup/imagenes/minimizar.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -241,7 +241,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/min.svg</normaloff>imagenes/min.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/min.svg</normaloff>../../../../.designer/backup/imagenes/min.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -252,7 +252,7 @@ border-radius:20px;
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="connectButton">
             <property name="minimumSize">
              <size>
               <width>30</width>
@@ -267,7 +267,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/max.svg</normaloff>imagenes/max.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/max.svg</normaloff>../../../../.designer/backup/imagenes/max.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -293,7 +293,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>imagenes/close.svg</normaloff>imagenes/close.svg</iconset>
+              <normaloff>../../../../.designer/backup/imagenes/close.svg</normaloff>../../../../.designer/backup/imagenes/close.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -667,7 +667,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/x-y-.svg</normaloff>imagenes/x-y-.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/x-y-.svg</normaloff>../../../../.designer/backup/imagenes/x-y-.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -687,7 +687,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/x+y+.svg</normaloff>imagenes/x+y+.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/x+y+.svg</normaloff>../../../../.designer/backup/imagenes/x+y+.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -703,11 +703,11 @@ height: 75%;
                          <string notr="true"/>
                         </property>
                         <property name="text">
-                         <string>X-</string>
+                         <string>X+</string>
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/flecha_derecha.svg</normaloff>imagenes/flecha_derecha.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/flecha_derecha.svg</normaloff>../../../../.designer/backup/imagenes/flecha_derecha.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -727,7 +727,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/flecha_abajo.svg</normaloff>imagenes/flecha_abajo.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/flecha_abajo.svg</normaloff>../../../../.designer/backup/imagenes/flecha_abajo.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -747,7 +747,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/flecha_arriba.svg</normaloff>imagenes/flecha_arriba.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/flecha_arriba.svg</normaloff>../../../../.designer/backup/imagenes/flecha_arriba.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -767,7 +767,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/lapiz_arriba.svg</normaloff>imagenes/lapiz_arriba.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/lapiz_arriba.svg</normaloff>../../../../.designer/backup/imagenes/lapiz_arriba.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -783,11 +783,11 @@ height: 75%;
                          <string notr="true"/>
                         </property>
                         <property name="text">
-                         <string>X+</string>
+                         <string>X-</string>
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/flecha_izquierda.svg</normaloff>imagenes/flecha_izquierda.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/flecha_izquierda.svg</normaloff>../../../../.designer/backup/imagenes/flecha_izquierda.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -807,7 +807,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/x-y+.svg</normaloff>imagenes/x-y+.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/x-y+.svg</normaloff>../../../../.designer/backup/imagenes/x-y+.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -827,7 +827,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/x+y-.svg</normaloff>imagenes/x+y-.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/x+y-.svg</normaloff>../../../../.designer/backup/imagenes/x+y-.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -852,7 +852,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/reset2.svg</normaloff>imagenes/reset2.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/reset2.svg</normaloff>../../../../.designer/backup/imagenes/reset2.svg</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -869,7 +869,7 @@ height: 75%;
                         </property>
                         <property name="icon">
                          <iconset>
-                          <normaloff>imagenes/return1.svg</normaloff>imagenes/return1.svg</iconset>
+                          <normaloff>../../../../.designer/backup/imagenes/return1.svg</normaloff>../../../../.designer/backup/imagenes/return1.svg</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -915,7 +915,7 @@ height: 75%;
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>imagenes/GUI.png</pixmap>
+                <pixmap>../../../../.designer/backup/imagenes/GUI.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -1072,7 +1072,7 @@ border-radius:10px;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>imagenes/pausa1.svg</normaloff>imagenes/pausa1.svg</iconset>
+               <normaloff>../../../../.designer/backup/imagenes/pausa1.svg</normaloff>../../../../.designer/backup/imagenes/pausa1.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1101,7 +1101,7 @@ border-radius:10px;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>imagenes/play.svg</normaloff>imagenes/play.svg</iconset>
+               <normaloff>../../../../.designer/backup/imagenes/play.svg</normaloff>../../../../.designer/backup/imagenes/play.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
@@ -1130,7 +1130,7 @@ border-radius:10px;
              </property>
              <property name="icon">
               <iconset>
-               <normaloff>imagenes/stop1.svg</normaloff>imagenes/stop1.svg</iconset>
+               <normaloff>../../../../.designer/backup/imagenes/stop1.svg</normaloff>../../../../.designer/backup/imagenes/stop1.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
