@@ -76,7 +76,20 @@ class UI(QtWidgets.QMainWindow):
                 self.ui.portOptions.addItem(port.device)
             self.serial.baudrate = 115200
             self.serial.port = self.ui.portOptions.currentText()
-            self.serial.open()
+            #self.serial.open()
+            self.ui.connectButton.setEnabled(True)
+
+            # self.timer = QtCore.QTimer()
+            # if self.serial.is_open:
+            #    self.timer.start(10)
+            #    self.timer.timeout.connect(self.read)
+
+            self.thread = QtCore.QThread()
+
+            self.readPort = ReadPort(self.serial)
+
+            self.readPort.moveToThread(self.thread)
+            self.thread.started.connect(self.readPort.run)
 
         self.ui.sendButton.clicked.connect(self.send)
         self.ui.upButton.clicked.connect(self.up_movement)
@@ -110,18 +123,13 @@ class UI(QtWidgets.QMainWindow):
 
         self.ui.openButton.clicked.connect(self.openFile)
 
+    def clear(self):
+        self.ui.textEdit.clear()
+
     def send(self):
         data = self.ui.inputEdit.text() + '\n'
         self.serial.write(data.encode('utf-8'))
         self.ui.inputEdit.setText('')
-
-    def read(self):
-        if self.serial.is_open:
-            if self.serial.in_waiting > 0:
-                data = self.serial.read()
-                text = self.ui.textEdit.toPlainText()
-                text += data.decode('utf-8')
-                self.ui.textEdit.setText(text)
 
     def connect(self):
         if not self.serial.is_open:
