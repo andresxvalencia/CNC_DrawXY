@@ -4,6 +4,7 @@ import view3d
 
 import sys
 
+
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
@@ -15,7 +16,8 @@ class Ui(QtWidgets.QMainWindow):
         gcode = open('embebidos.ngc').read()
         self.view_3D.compute_data(gcode)
 
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     window.show()
