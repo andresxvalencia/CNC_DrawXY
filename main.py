@@ -219,9 +219,9 @@ class UI(QtWidgets.QMainWindow):
         path = '/home/andresxvalencia/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE'
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                     "*.gcode *.ngc *.svg")[0]
-        ext = self.filename[-4:]
+
         if self.filename != "":
-            if ext == '.svg':
+            if self.filename.endswith('.svg'):
                 self.drawFiguresvg()
                 gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
 
@@ -231,8 +231,7 @@ class UI(QtWidgets.QMainWindow):
                 gcode_compiler.compile_to_file("drawing.gcode", passes=2)
                 print('File Converted to gcode')
                 self.filename = "drawing.gcode"
-            else:
-                self.drawFigure()
+            self.drawFigure()
             self.execute_code()
 
     def drawFigure(self):
@@ -243,7 +242,7 @@ class UI(QtWidgets.QMainWindow):
     def drawFiguresvg(self):
         svgWidget = QtSvg.QSvgWidget(self.filename)
         svgWidget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.ui.viewLayout.addWidget(svgWidget)
+        self.ui.svgLayout.addWidget(svgWidget)
 
     def play(self):
         f = open(self.filename, 'r')

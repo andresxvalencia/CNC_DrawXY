@@ -10,7 +10,7 @@ class Ui(QMainWindow):
         
         svgWidget = QtSvg.QSvgWidget('logo-ingelect.svg')
         svgWidget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.ui.viewLayout.addWidget(svgWidget)
+        self.ui.svgLayout.addWidget(svgWidget)
 
 
 if __name__ == "__main__": 
