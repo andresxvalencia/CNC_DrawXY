@@ -13,6 +13,7 @@ from PyQt5 import QtSvg, uic
 from PyQt5.QtWidgets import QSizePolicy
 import sys
 
+
 class ReadPort(QtCore.QObject):
     update = QtCore.pyqtSignal(str)
 
