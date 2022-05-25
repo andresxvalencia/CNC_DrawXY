@@ -8,6 +8,10 @@ import serial.tools.list_ports as list_ports
 import sys
 import time
 import view3d
+from svg_to_gcode.svg_parser import parse_file
+from svg_to_gcode.compiler import Compiler, interfaces
+from PyQt5.QtWidgets import QSizePolicy
+from PyQt5 import QtSvg, uic
 
 
 class ReadPort(QtCore.QObject):
@@ -213,14 +217,31 @@ class UI(QtWidgets.QMainWindow):
     def openFile(self):
         path = '/home/andresxvalencia/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE'
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
-                                                    "*.gcode, *.ngc")[0]
-        self.execute_code()
-        self.drawFigure()
+                                                    "*.gcode *.ngc *.svg")[0]
+
+        if self.filename != "":
+            if self.filename.endswith('.svg'):
+                self.drawFiguresvg()
+                gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
+
+                curves = parse_file(self.filename)  # Parse an svg file into geometric curves
+
+                gcode_compiler.append_curves(curves)
+                gcode_compiler.compile_to_file("drawing.gcode", passes=2)
+                print('File Converted to gcode')
+                self.filename = "drawing.gcode"
+            self.drawFigure()
+            self.execute_code()
 
     def drawFigure(self):
         gcode = open(self.filename).read()
         self.view_3D.compute_data(gcode)
         self.view_3D.draw()
+
+    def drawFiguresvg(self):
+        svgWidget = QtSvg.QSvgWidget(self.filename)
+        svgWidget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.ui.svgLayout.addWidget(svgWidget)
 
     def play(self):
         f = open(self.filename, 'r')
