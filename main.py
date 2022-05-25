@@ -5,18 +5,14 @@ from PyQt5.Qsci import *
 from PyQt5.QtWidgets import QFileDialog
 import serial
 import serial.tools.list_ports as list_ports
+import sys
 import time
 import view3d
-from svg_to_gcode.svg_parser import parse_file
-from svg_to_gcode.compiler import Compiler, interfaces
-from PyQt5 import QtSvg, uic
-from PyQt5.QtWidgets import QSizePolicy
-import sys
 
 class ReadPort(QtCore.QObject):
     update = QtCore.pyqtSignal(str)
 
-    def __init__(self):
+    def __init__(self, serial):
         super().__init__()
         self.serial = serial
 
@@ -31,7 +27,6 @@ class ReadPort(QtCore.QObject):
                         self.update.emit(text)
                 except:
                     pass
-
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -81,7 +76,7 @@ class UI(QtWidgets.QMainWindow):
                 self.ui.portOptions.addItem(port.device)
             self.serial.baudrate = 115200
             self.serial.port = self.ui.portOptions.currentText()
-            # self.serial.open()
+            #self.serial.open()
             self.ui.connectButton.setEnabled(True)
 
             # self.timer = QtCore.QTimer()
@@ -91,7 +86,7 @@ class UI(QtWidgets.QMainWindow):
 
             self.thread = QtCore.QThread()
 
-            self.readPort = ReadPort()
+            self.readPort = ReadPort(self.serial)
 
             self.readPort.moveToThread(self.thread)
             self.thread.started.connect(self.readPort.run)
@@ -114,14 +109,14 @@ class UI(QtWidgets.QMainWindow):
         self.view_3D = view3d.View3D()
         self.ui.viewLayout.addWidget(self.view_3D)
 
-        # self.timer = QtCore.QTimer()
-        # if self.serial.is_open:
+        #self.timer = QtCore.QTimer()
+        #if self.serial.is_open:
         #    self.timer.start(10)
         #    self.timer.timeout.connect(self.read)
 
         self.thread = QtCore.QThread()
 
-        self.readPort = ReadPort()
+        self.readPort = ReadPort(self.serial)
 
         self.readPort.moveToThread(self.thread)
         self.thread.started.connect(self.readPort.run)
@@ -142,15 +137,15 @@ class UI(QtWidgets.QMainWindow):
             # self.readTimer.start(10)
             self.thread.start()
             self.ui.sendButton.setEnabled(True)
-            # self.ui.connectButton.setText('Disconnect')
-            # self.ui.inputEdit.setEnabled(True)
+            #self.ui.connectButton.setText('Disconnect')
+            #self.ui.inputEdit.setEnabled(True)
         else:
             self.thread.quit()
             self.serial.close()
             # self.readTimer.stop()
             self.ui.sendButton.setEnabled(False)
-            # self.ui.connectButton.setText('Connect')
-            # self.ui.inputEdit.setEnabled(False)
+            #self.ui.connectButton.setText('Connect')
+            #self.ui.inputEdit.setEnabled(False)
 
     def up_movement(self):
         self.send_message('G21G91G1Y1F3000')
@@ -217,38 +212,21 @@ class UI(QtWidgets.QMainWindow):
     def openFile(self):
         path = '/home/andresxvalencia/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE'
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
-                                                    "*.gcode *.ngc *.svg")[0]
-
-        if self.filename != "":
-            if self.filename.endswith('.svg'):
-                self.drawFiguresvg()
-                gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
-
-                curves = parse_file(self.filename)  # Parse an svg file into geometric curves
-
-                gcode_compiler.append_curves(curves)
-                gcode_compiler.compile_to_file("drawing.gcode", passes=2)
-                print('File Converted to gcode')
-                self.filename = "drawing.gcode"
-            self.drawFigure()
-            self.execute_code()
+                                                    "*.gcode, *.ngc")[0]
+        self.execute_code()
+        self.drawFigure()
 
     def drawFigure(self):
         gcode = open(self.filename).read()
         self.view_3D.compute_data(gcode)
         self.view_3D.draw()
 
-    def drawFiguresvg(self):
-        svgWidget = QtSvg.QSvgWidget(self.filename)
-        svgWidget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.ui.svgLayout.addWidget(svgWidget)
-
     def play(self):
         f = open(self.filename, 'r')
         self.send_message("\n\n")
         for line in f:
-            lecture = line.strip()
-            if not lecture.startswith('(') and not lecture.startswith('%'):
+             lecture = line.strip()
+             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.send_message(lecture)
                 grbl_out = self.serial.readline().decode('utf-8')
 
