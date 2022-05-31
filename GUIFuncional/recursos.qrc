@@ -1,0 +1,44 @@
+<RCC>
+  <qresource prefix="Jog Control">
+    <file>imagenes/flecha_abajo.svg</file>
+    <file>imagenes/flecha_arriba.svg</file>
+    <file>imagenes/flecha_derecha.svg</file>
+    <file>imagenes/flecha_izquierda.svg</file>
+    <file>imagenes/lapiz_abajo.svg</file>
+    <file>imagenes/lapiz_arriba.svg</file>
+    <file>imagenes/x+y-.svg</file>
+    <file>imagenes/x+y+.svg</file>
+    <file>imagenes/x-y-.svg</file>
+    <file>imagenes/x-y+.svg</file>
+  </qresource>
+  <qresource prefix="Camera">
+    <file>imagenes/camera.svg</file>
+    <file>imagenes/cargar.svg</file>
+    <file>imagenes/defecto.png</file>
+  </qresource>
+  <qresource prefix="ToolBox">
+    <file>imagenes/reset2.svg</file>
+    <file>imagenes/return1.svg</file>
+  </qresource>
+  <qresource prefix="Top">
+    <file>imagenes/DrawXYLogo.png</file>
+    <file>imagenes/ajustes.svg</file>
+    <file>imagenes/archivo.svg</file>
+    <file>imagenes/info.svg</file>
+  </qresource>
+  <qresource prefix="Action">
+    <file>imagenes/connect.svg</file>
+    <file>imagenes/pausa1.svg</file>
+    <file>imagenes/play1.svg</file>
+    <file>imagenes/stop1.svg</file>
+  </qresource>
+  <qresource prefix="Info">
+    <file>imagenes/GUI.png</file>
+  </qresource>
+  <qresource prefix="Buttons">
+    <file>imagenes/cerrar.svg</file>
+    <file>imagenes/max.svg</file>
+    <file>imagenes/quitar.svg</file>
+    <file>imagenes/min.svg</file>
+  </qresource>
+</RCC>

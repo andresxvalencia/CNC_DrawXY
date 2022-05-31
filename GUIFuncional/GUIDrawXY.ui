@@ -110,7 +110,7 @@ border-radius:20px;
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>../../../../.designer/backup/imagenes/DrawXYLogo.png</pixmap>
+             <pixmap resource="recursos.qrc">:/Top/imagenes/DrawXYLogo.png</pixmap>
             </property>
             <property name="margin">
              <number>0</number>
@@ -129,8 +129,8 @@ border-radius:20px;
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>archivo.svg</normaloff>archivo.svg</iconset>
+             <iconset resource="recursos.qrc">
+              <normaloff>:/Top/imagenes/archivo.svg</normaloff>:/Top/imagenes/archivo.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -152,8 +152,8 @@ border-radius:20px;
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/info.svg</normaloff>../../../../.designer/backup/imagenes/info.svg</iconset>
+             <iconset resource="recursos.qrc">
+              <normaloff>:/Top/imagenes/info.svg</normaloff>:/Top/imagenes/info.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -175,8 +175,8 @@ border-radius:20px;
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/ajustes.svg</normaloff>../../../../.designer/backup/imagenes/ajustes.svg</iconset>
+             <iconset resource="recursos.qrc">
+              <normaloff>:/Top/imagenes/ajustes.svg</normaloff>:/Top/imagenes/ajustes.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -200,58 +200,6 @@ border-radius:20px;
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/minimizar.svg</normaloff>../../../../.designer/backup/imagenes/minimizar.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>20</width>
-              <height>20</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/min.svg</normaloff>../../../../.designer/backup/imagenes/min.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>18</width>
-              <height>18</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="connectButton">
             <property name="minimumSize">
              <size>
@@ -266,39 +214,13 @@ border-radius:20px;
              <string/>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/max.svg</normaloff>../../../../.designer/backup/imagenes/max.svg</iconset>
+             <iconset resource="recursos.qrc">
+              <normaloff>:/Action/imagenes/connect.svg</normaloff>:/Action/imagenes/connect.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
               <width>16</width>
               <height>16</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../../../../.designer/backup/imagenes/close.svg</normaloff>../../../../.designer/backup/imagenes/close.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>22</width>
-              <height>22</height>
              </size>
             </property>
            </widget>
@@ -339,6 +261,12 @@ border-radius:20px;
              <size>
               <width>225</width>
               <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>400</width>
+              <height>16777215</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -642,7 +570,7 @@ height: 75%;
 }</string>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>2</number>
                   </property>
                   <widget class="QWidget" name="tab">
                    <attribute name="title">
@@ -666,8 +594,8 @@ height: 75%;
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/x-y-.svg</normaloff>../../../../.designer/backup/imagenes/x-y-.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/x-y-.svg</normaloff>:/Jog Control/imagenes/x-y-.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -686,8 +614,8 @@ height: 75%;
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/x+y+.svg</normaloff>../../../../.designer/backup/imagenes/x+y+.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/x+y+.svg</normaloff>:/Jog Control/imagenes/x+y+.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -706,8 +634,8 @@ height: 75%;
                          <string>X+</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/flecha_derecha.svg</normaloff>../../../../.designer/backup/imagenes/flecha_derecha.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/flecha_derecha.svg</normaloff>:/Jog Control/imagenes/flecha_derecha.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -726,8 +654,8 @@ height: 75%;
                          <string>Y-</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/flecha_abajo.svg</normaloff>../../../../.designer/backup/imagenes/flecha_abajo.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/flecha_abajo.svg</normaloff>:/Jog Control/imagenes/flecha_abajo.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -746,8 +674,8 @@ height: 75%;
                          <string>Y+</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/flecha_arriba.svg</normaloff>../../../../.designer/backup/imagenes/flecha_arriba.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/flecha_arriba.svg</normaloff>:/Jog Control/imagenes/flecha_arriba.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -766,8 +694,8 @@ height: 75%;
                          <string>Z</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/lapiz_arriba.svg</normaloff>../../../../.designer/backup/imagenes/lapiz_arriba.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/lapiz_abajo.svg</normaloff>:/Jog Control/imagenes/lapiz_abajo.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -786,8 +714,8 @@ height: 75%;
                          <string>X-</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/flecha_izquierda.svg</normaloff>../../../../.designer/backup/imagenes/flecha_izquierda.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/flecha_izquierda.svg</normaloff>:/Jog Control/imagenes/flecha_izquierda.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -806,8 +734,8 @@ height: 75%;
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/x-y+.svg</normaloff>../../../../.designer/backup/imagenes/x-y+.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/x-y+.svg</normaloff>:/Jog Control/imagenes/x-y+.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -826,8 +754,8 @@ height: 75%;
                          <string/>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/x+y-.svg</normaloff>../../../../.designer/backup/imagenes/x+y-.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Jog Control/imagenes/x+y-.svg</normaloff>:/Jog Control/imagenes/x+y-.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -851,8 +779,8 @@ height: 75%;
                          <string> Reset Zero</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/reset2.svg</normaloff>../../../../.designer/backup/imagenes/reset2.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/ToolBox/imagenes/reset2.svg</normaloff>:/ToolBox/imagenes/reset2.svg</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
@@ -868,14 +796,138 @@ height: 75%;
                          <string>Return to Zero</string>
                         </property>
                         <property name="icon">
-                         <iconset>
-                          <normaloff>../../../../.designer/backup/imagenes/return1.svg</normaloff>../../../../.designer/backup/imagenes/return1.svg</iconset>
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/ToolBox/imagenes/return1.svg</normaloff>:/ToolBox/imagenes/return1.svg</iconset>
                         </property>
                         <property name="iconSize">
                          <size>
                           <width>35</width>
                           <height>35</height>
                          </size>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                  <widget class="QWidget" name="tab_2">
+                   <attribute name="title">
+                    <string>Camera</string>
+                   </attribute>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_6">
+                      <property name="spacing">
+                       <number>20</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>5</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>10</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>5</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>10</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="pushButton">
+                        <property name="text">
+                         <string>Tomar Foto</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_2">
+                        <property name="text">
+                         <string>Cargar Foto</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/cargar.svg</normaloff>:/Camera/imagenes/cargar.svg</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_9">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 9pt &quot;Arial Black&quot;;
+background-color: rgb(0, 0, 0);
+color: #186a0d;</string>
+                        </property>
+                        <property name="text">
+                         <string>Ajustar:</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="inputEdit_2">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 75 8pt &quot;Times New Roman&quot;;
+color: #186a0d;
+border-radius: 5px;
+border: 1px solid #20de07;</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_7">
+                      <property name="spacing">
+                       <number>15</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>10</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>10</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="label_3">
+                        <property name="minimumSize">
+                         <size>
+                          <width>179</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">border-image: url(:/Camera/imagenes/defecto.png);</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_3">
+                        <property name="text">
+                         <string>Aplicar</string>
                         </property>
                        </widget>
                       </item>
@@ -899,6 +951,12 @@ height: 75%;
               <height>0</height>
              </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>450</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">margin: 4px;</string>
             </property>
@@ -915,7 +973,7 @@ height: 75%;
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../../../../.designer/backup/imagenes/GUI.png</pixmap>
+                <pixmap resource="recursos.qrc">:/Info/imagenes/GUI.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -1052,115 +1110,83 @@ border-radius:10px;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QPushButton" name="pushButton_21">
-             <property name="geometry">
-              <rect>
-               <x>160</x>
-               <y>10</y>
-               <width>40</width>
-               <height>40</height>
-              </rect>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>40</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../../../../.designer/backup/imagenes/pausa1.svg</normaloff>../../../../.designer/backup/imagenes/pausa1.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="playButton">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>10</y>
-               <width>40</width>
-               <height>40</height>
-              </rect>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>40</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../../../../.designer/backup/imagenes/play.svg</normaloff>../../../../.designer/backup/imagenes/play.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="stopButton">
-             <property name="geometry">
-              <rect>
-               <x>90</x>
-               <y>10</y>
-               <width>40</width>
-               <height>40</height>
-              </rect>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>40</width>
-               <height>40</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>../../../../.designer/backup/imagenes/stop1.svg</normaloff>../../../../.designer/backup/imagenes/stop1.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>30</width>
-               <height>30</height>
-              </size>
-             </property>
-            </widget>
-            <widget class="QWidget" name="gridLayoutWidget">
-             <property name="geometry">
-              <rect>
-               <x>9</x>
-               <y>89</y>
-               <width>211</width>
-               <height>291</height>
-              </rect>
-             </property>
-             <layout class="QGridLayout" name="viewLayout"/>
-            </widget>
-            <widget class="QWidget" name="gridLayoutWidget_2">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>390</y>
-               <width>211</width>
-               <height>91</height>
-              </rect>
-             </property>
-             <layout class="QGridLayout" name="svgLayout"/>
-            </widget>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="playButton">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="recursos.qrc">
+                 <normaloff>:/Action/imagenes/play1.svg</normaloff>:/Action/imagenes/play1.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="stopButton">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="recursos.qrc">
+                 <normaloff>:/Action/imagenes/stop1.svg</normaloff>:/Action/imagenes/stop1.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QPushButton" name="pushButton_21">
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="recursos.qrc">
+                 <normaloff>:/Action/imagenes/pausa1.svg</normaloff>:/Action/imagenes/pausa1.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="3">
+              <layout class="QGridLayout" name="viewLayout"/>
+             </item>
+             <item row="2" column="0" colspan="3">
+              <layout class="QGridLayout" name="svgLayout"/>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -1172,6 +1198,8 @@ border-radius:10px;
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="recursos.qrc"/>
+ </resources>
  <connections/>
 </ui>
