@@ -1,4 +1,3 @@
-import pygame
 import pygame.camera
 from PIL import Image, ImageFilter
 
