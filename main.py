@@ -12,6 +12,7 @@ from svg_to_gcode.svg_parser import parse_file
 from svg_to_gcode.compiler import Compiler, interfaces
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5 import QtSvg, uic
+import GUIFuncional.recursos
 
 
 class ReadPort(QtCore.QObject):
