@@ -15,14 +15,6 @@ from PyQt5 import QtSvg, uic
 import cairosvg
 import pygame.camera
 from PIL import Image, ImageQt, ImageFilter
-
-from PyQt5.QtWidgets import (
-    QApplication,
-    QLabel,
-    QGridLayout,
-    QWidget
-)
-
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QTimer
 import GUIFuncional.recursos
@@ -31,21 +23,58 @@ import GUIFuncional.recursos
 class ReadPort(QtCore.QObject):
     update = QtCore.pyqtSignal(str)
 
-    def __init__(self, serial):
+    def __init__(self, s):
         super().__init__()
-        self.serial = serial
+        self.serial = s
+        self.isrunning = True
+
+    def stop(self):
+        self.isrunning = False
 
     def run(self):
-        while True:
+        print('Empieza Thread ReadPort')
+        while self.isrunning:
             if self.serial.is_open:
                 try:
                     if self.serial.in_waiting > 0:
+                        print('Serial está disponible')
                         data = self.serial.readline()
                         data = data.replace(b'\r', b'')
                         text = data.decode('iso-8859-1')
                         self.update.emit(text)
                 except:
                     pass
+
+
+class PlayThread(QtCore.QObject):
+    update = QtCore.pyqtSignal(str)
+
+    def __init__(self, s):
+        super().__init__()
+        self.serial = s
+        print('Se inició el Thread')
+
+    def setFileName(self, f):
+        self.f = f
+
+    def run(self):
+        print('Empieza run')
+        if self.serial.is_open:
+            print('El serial está disponible')
+            for line in self.f:
+                lecture = line.strip()
+                if not lecture.startswith('(') and not lecture.startswith('%'):
+                    lecture = lecture + '\n'
+                    data = lecture.encode('utf-8')
+                    self.serial.write(data)
+                    self.update.emit(lecture)
+                    print('Dato Enviado')
+                    data = self.serial.readline()
+                    data = data.replace(b'\r', b'')
+                    text = data.decode('iso-8859-1')
+                    self.update.emit(text)
+                    # print(text)
+
 
 
 class UI(QtWidgets.QMainWindow):
@@ -150,11 +179,17 @@ class UI(QtWidgets.QMainWindow):
         #    self.timer.timeout.connect(self.read)
 
         self.thread = QtCore.QThread()
+        self.thread2 = QtCore.QThread()
 
         self.readPort = ReadPort(self.serial)
 
         self.readPort.moveToThread(self.thread)
         self.thread.started.connect(self.readPort.run)
+
+        self.playThread = PlayThread(self.serial)
+        # self.thread.quit()
+        self.playThread.moveToThread(self.thread2)
+        self.thread2.started.connect(self.playThread.run)
 
         self.ui.openButton.clicked.connect(self.openFile)
 
@@ -185,6 +220,7 @@ class UI(QtWidgets.QMainWindow):
         self.readPort.update.connect(self.readline)
 
     def readline(self, message):
+        print('Nuevo Mensaje')
         self.ui.textEdit.append(message)
 
     def connect(self):
@@ -267,7 +303,7 @@ class UI(QtWidgets.QMainWindow):
         self.ui.playButton.clicked.connect(self.play)
 
     def openFile(self):
-        path = '/home/andresxvalencia/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE'
+        path = '/Imagenes GCODE'
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                     "*.gcode *.ngc *.svg")[0]
 
@@ -306,15 +342,17 @@ class UI(QtWidgets.QMainWindow):
         self.ui.svgLayout.addWidget(svgWidget)
 
     def play(self):
+        # self.thread.quit()
+        self.readPort.stop()
         f = open(self.filename, 'r')
-        self.send_message("\n\n")
-        for line in f:
-            lecture = line.strip()
-            if not lecture.startswith('(') and not lecture.startswith('%'):
-                self.send_message(lecture)
-                self.readPort.update.connect(self.readline)
+        self.playThread.setFileName(f)
+        self.thread2.start()
+        self.playThread.update.connect(self.appendMessage)
+        # f.close()
 
-        f.close()
+    def appendMessage(self, message):
+        self.ui.textEdit.append(message)
+
 
     def resetZero(self):
         self.send_message('G10 P0 L20 X0 Y0 Z0')
