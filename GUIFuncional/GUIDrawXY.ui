@@ -834,24 +834,13 @@ height: 75%;
                        <number>10</number>
                       </property>
                       <item>
-                       <widget class="QPushButton" name="pushButton">
+                       <widget class="QPushButton" name="takePhotoButton">
                         <property name="text">
                          <string>Tomar Foto</string>
                         </property>
                         <property name="icon">
                          <iconset resource="recursos.qrc">
                           <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="pushButton_2">
-                        <property name="text">
-                         <string>Cargar Foto</string>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="recursos.qrc">
-                          <normaloff>:/Camera/imagenes/cargar.svg</normaloff>:/Camera/imagenes/cargar.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -877,7 +866,7 @@ color: #186a0d;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QLineEdit" name="inputEdit_2">
+                       <widget class="QLineEdit" name="inputThreshold">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
@@ -925,7 +914,7 @@ border: 1px solid #20de07;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_3">
+                       <widget class="QPushButton" name="thresholdButton">
                         <property name="text">
                          <string>Aplicar</string>
                         </property>

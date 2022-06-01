@@ -191,7 +191,12 @@ class UI(QtWidgets.QMainWindow):
         self.playThread.moveToThread(self.thread2)
         self.thread2.started.connect(self.playThread.run)
 
+        self.showImage = True
+
+        self.threshold = 100
+
         self.ui.openButton.clicked.connect(self.openFile)
+        self.ui.thresholdButton.clicked.connect(self.setThreshold)
 
     def showCamera(self):
         image = self.cam.get_image()
@@ -201,13 +206,24 @@ class UI(QtWidgets.QMainWindow):
 
         self.pil_image = pil_image.convert('L')
 
-        threshold = 120
-        img_new = self.pil_image.point(lambda x: 255 if x > threshold else 0)
-        img_newFiltered = img_new.filter(ImageFilter.CONTOUR)
-
-        self.im = ImageQt.ImageQt(img_newFiltered)
+        img_new = self.pil_image.point(lambda x: 255 if x > self.threshold else 0)
+        self.img_newFiltered = img_new.filter(ImageFilter.CONTOUR)
+        self.im = ImageQt.ImageQt(self.img_newFiltered)
         pixmap = QPixmap.fromImage(self.im)
+        if self.showImage:
+            self.label.setPixmap(pixmap)
+        self.ui.takePhotoButton.clicked.connect(self.savePhoto)
+
+    def savePhoto(self):
+        picture = self.img_newFiltered
+        picture.save('Capture.bmp')
+        pixmap = QPixmap('Capture.bmp')
         self.label.setPixmap(pixmap)
+        self.showImage = False
+
+    def setThreshold(self):
+        text = int(self.ui.inputThreshold.text())
+        self.threshold = text
 
     def clear(self):
         self.ui.textEdit.clear()
