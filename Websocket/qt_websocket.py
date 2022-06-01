@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication
 
 import sys
 
-url = "ws://grblesp.local/command?commandText="
+url = "ws://192.168.0.1/command?commandText="
 
 
 class Client(QObject):
@@ -16,9 +16,13 @@ class Client(QObject):
         self.websocket.textMessageReceived.connect(self.onTextMsgRx)
         self.websocket.binaryMessageReceived.connect(self.onBinMsgRx)
 
-        cmd = QUrl(url + "?")
+        cmd = QUrl(url + "$$")
         cmd.setPort(81)
         self.websocket.open(cmd)
+
+        self.websocket.
+
+
 
     def onConnected(self):
         print("Connected")

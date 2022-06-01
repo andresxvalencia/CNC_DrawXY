@@ -12,6 +12,19 @@ from svg_to_gcode.svg_parser import parse_file
 from svg_to_gcode.compiler import Compiler, interfaces
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5 import QtSvg, uic
+import cairosvg
+import pygame.camera
+from PIL import Image, ImageQt, ImageFilter
+
+from PyQt5.QtWidgets import (
+    QApplication,
+    QLabel,
+    QGridLayout,
+    QWidget
+)
+
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QTimer
 import GUIFuncional.recursos
 
 
@@ -27,12 +40,13 @@ class ReadPort(QtCore.QObject):
             if self.serial.is_open:
                 try:
                     if self.serial.in_waiting > 0:
-                        data = self.serial.read()
+                        data = self.serial.readline()
                         data = data.replace(b'\r', b'')
                         text = data.decode('iso-8859-1')
                         self.update.emit(text)
                 except:
                     pass
+
 
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -70,6 +84,21 @@ class UI(QtWidgets.QMainWindow):
         self.__editor.setMarginLineNumbers(0, True)
         self.__editor.setMarginsBackgroundColor(QColor("#193817"))
 
+        self.label = self.ui.photo
+
+        pygame.camera.init()
+        cameras = pygame.camera.list_cameras()
+        self.cam = pygame.camera.Camera(cameras[0])
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.showCamera)
+
+        self.cam.start()
+
+        self.timer.start()
+
+        self.show()
+
         ports = list_ports.comports()
 
         for baud in self.serial.BAUDRATES:
@@ -82,7 +111,7 @@ class UI(QtWidgets.QMainWindow):
                 self.ui.portOptions.addItem(port.device)
             self.serial.baudrate = 115200
             self.serial.port = self.ui.portOptions.currentText()
-            #self.serial.open()
+            # self.serial.open()
             self.ui.connectButton.setEnabled(True)
 
             # self.timer = QtCore.QTimer()
@@ -115,8 +144,8 @@ class UI(QtWidgets.QMainWindow):
         self.view_3D = view3d.View3D()
         self.ui.viewLayout.addWidget(self.view_3D)
 
-        #self.timer = QtCore.QTimer()
-        #if self.serial.is_open:
+        # self.timer = QtCore.QTimer()
+        # if self.serial.is_open:
         #    self.timer.start(10)
         #    self.timer.timeout.connect(self.read)
 
@@ -129,13 +158,34 @@ class UI(QtWidgets.QMainWindow):
 
         self.ui.openButton.clicked.connect(self.openFile)
 
+    def showCamera(self):
+        image = self.cam.get_image()
+
+        raw_str = pygame.image.tostring(image, 'RGB')
+        pil_image = Image.frombytes('RGB', image.get_size(), raw_str)
+
+        self.pil_image = pil_image.convert('L')
+
+        threshold = 120
+        img_new = self.pil_image.point(lambda x: 255 if x > threshold else 0)
+        img_newFiltered = img_new.filter(ImageFilter.CONTOUR)
+
+        self.im = ImageQt.ImageQt(img_newFiltered)
+        pixmap = QPixmap.fromImage(self.im)
+        self.label.setPixmap(pixmap)
+
     def clear(self):
         self.ui.textEdit.clear()
 
     def send(self):
+        print('Writing data')
         data = self.ui.inputEdit.text() + '\n'
         self.serial.write(data.encode('utf-8'))
         self.ui.inputEdit.setText('')
+        self.readPort.update.connect(self.readline)
+
+    def readline(self, message):
+        self.ui.textEdit.append(message)
 
     def connect(self):
         if not self.serial.is_open:
@@ -143,15 +193,16 @@ class UI(QtWidgets.QMainWindow):
             # self.readTimer.start(10)
             self.thread.start()
             self.ui.sendButton.setEnabled(True)
-            #self.ui.connectButton.setText('Disconnect')
-            #self.ui.inputEdit.setEnabled(True)
+            print('Se estableció la conexión serial')
+            # self.ui.connectButton.setText('Disconnect')
+            # self.ui.inputEdit.setEnabled(True)
         else:
             self.thread.quit()
             self.serial.close()
             # self.readTimer.stop()
             self.ui.sendButton.setEnabled(False)
-            #self.ui.connectButton.setText('Connect')
-            #self.ui.inputEdit.setEnabled(False)
+            # self.ui.connectButton.setText('Connect')
+            # self.ui.inputEdit.setEnabled(False)
 
     def up_movement(self):
         self.send_message('G21G91G1Y1F3000')
@@ -222,6 +273,16 @@ class UI(QtWidgets.QMainWindow):
 
         if self.filename != "":
             if self.filename.endswith('.svg'):
+                svg = cairosvg.svg2svg(
+                    url=self.filename,
+                    write_to='svg-converted.svg',
+                    scale=0.1
+                )
+
+                self.filename = 'svg-converted.svg'
+
+                print('New File Name: ' + self.filename)
+
                 self.drawFiguresvg()
                 gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
 
@@ -248,10 +309,10 @@ class UI(QtWidgets.QMainWindow):
         f = open(self.filename, 'r')
         self.send_message("\n\n")
         for line in f:
-             lecture = line.strip()
-             if not lecture.startswith('(') and not lecture.startswith('%'):
+            lecture = line.strip()
+            if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.send_message(lecture)
-                grbl_out = self.serial.readline().decode('utf-8')
+                self.readPort.update.connect(self.readline)
 
         f.close()
 

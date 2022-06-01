@@ -25,10 +25,6 @@ class ViewImage(QWidget):
         cameras = pygame.camera.list_cameras()
         self.cam = pygame.camera.Camera(cameras[0])
 
-        self.grid = QGridLayout()
-        self.grid.addWidget(self.label)
-        self.setLayout(self.grid)
-
         self.timer = QTimer()
         self.timer.timeout.connect(self.showCamera)
 
