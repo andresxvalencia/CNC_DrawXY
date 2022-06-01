@@ -19,7 +19,7 @@ pil_image = Image.frombytes('RGB', image.get_size(), raw_str)
 
 pil_image = pil_image.convert('L')
 
-threshold = 100
+threshold = 80
 img_new = pil_image.point(lambda x: 255 if x > threshold else 0)
 img_newFiltered = img_new.filter(ImageFilter.CONTOUR)
 

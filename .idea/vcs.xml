@@ -3,6 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/CoreXY_ESP32_GRBL" vcs="" />
-    <mapping directory="$PROJECT_DIR$/Grbl_Esp32" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Grbl_Esp32" vcs="" />
   </component>
 </project>
