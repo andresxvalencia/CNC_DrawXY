@@ -17,6 +17,7 @@ import pygame.camera
 from PIL import Image, ImageQt, ImageFilter
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QTimer
+import os
 import GUIFuncional.recursos
 
 
@@ -52,15 +53,12 @@ class PlayThread(QtCore.QObject):
     def __init__(self, s):
         super().__init__()
         self.serial = s
-        print('Se inició el Thread')
 
     def setFileName(self, f):
         self.f = f
 
     def run(self):
-        print('Empieza run')
         if self.serial.is_open:
-            print('El serial está disponible')
             for line in self.f:
                 lecture = line.strip()
                 if not lecture.startswith('(') and not lecture.startswith('%'):
@@ -68,13 +66,42 @@ class PlayThread(QtCore.QObject):
                     data = lecture.encode('utf-8')
                     self.serial.write(data)
                     self.update.emit(lecture)
-                    print('Dato Enviado')
                     data = self.serial.readline()
                     data = data.replace(b'\r', b'')
                     text = data.decode('iso-8859-1')
                     self.update.emit(text)
-                    # print(text)
 
+
+class Readgcode(QtCore.QObject):
+    update = QtCore.pyqtSignal(str)
+
+    def __init__(self):
+        super().__init__()
+        self.isrunning = True
+
+    def setFileName(self, f):
+        self.f = f
+
+    def stop(self):
+        self.isrunning = False
+        # self.f.close()
+
+    def start(self):
+        print('Is Running ha cambiado')
+        if self.isrunning == False:
+            self.isrunning = True
+            self.run()
+
+    def run(self):
+        while self.isrunning:
+            print('Ejecutando Run:')
+            time.sleep(2)
+            for line in self.f:
+                lecture = line.strip()
+                if not lecture.startswith('(') and not lecture.startswith('%'):
+                    lecture = lecture + '\n'
+                    self.update.emit(lecture)
+            self.stop()
 
 
 class UI(QtWidgets.QMainWindow):
@@ -180,6 +207,7 @@ class UI(QtWidgets.QMainWindow):
 
         self.thread = QtCore.QThread()
         self.thread2 = QtCore.QThread()
+        self.thread3 = QtCore.QThread()
 
         self.readPort = ReadPort(self.serial)
 
@@ -191,6 +219,10 @@ class UI(QtWidgets.QMainWindow):
         self.playThread.moveToThread(self.thread2)
         self.thread2.started.connect(self.playThread.run)
 
+        self.displayThread = Readgcode()
+        self.displayThread.moveToThread(self.thread3)
+        self.thread3.started.connect(self.displayThread.run)
+
         self.showImage = True
 
         self.threshold = 100
@@ -198,7 +230,13 @@ class UI(QtWidgets.QMainWindow):
         self.ui.openButton.clicked.connect(self.openFile)
         self.ui.thresholdButton.clicked.connect(self.setThreshold)
 
+        self.ui.uploadPhotoButton.clicked.connect(self.uploadPhoto)
+        self.ui.cancelButton.clicked.connect(self.cancelPhoto)
+        self.ui.takePhotoButton.clicked.connect(self.savePhoto)
+
+
     def showCamera(self):
+
         image = self.cam.get_image()
 
         raw_str = pygame.image.tostring(image, 'RGB')
@@ -212,7 +250,6 @@ class UI(QtWidgets.QMainWindow):
         pixmap = QPixmap.fromImage(self.im)
         if self.showImage:
             self.label.setPixmap(pixmap)
-        self.ui.takePhotoButton.clicked.connect(self.savePhoto)
 
     def savePhoto(self):
         picture = self.img_newFiltered
@@ -220,6 +257,20 @@ class UI(QtWidgets.QMainWindow):
         pixmap = QPixmap('Capture.bmp')
         self.label.setPixmap(pixmap)
         self.showImage = False
+
+    def uploadPhoto(self):
+        input_file = "Capture.bmp"
+        output_file = "Capture.svg"
+
+        os.system("potrace {} --svg -o {}".format(input_file, output_file))
+
+        self.filename = "Capture.svg"
+
+        self.runFile()
+
+    def cancelPhoto(self):
+        self.showImage = True
+        self.showCamera()
 
     def setThreshold(self):
         text = int(self.ui.inputThreshold.text())
@@ -229,14 +280,12 @@ class UI(QtWidgets.QMainWindow):
         self.ui.textEdit.clear()
 
     def send(self):
-        print('Writing data')
         data = self.ui.inputEdit.text() + '\n'
         self.serial.write(data.encode('utf-8'))
         self.ui.inputEdit.setText('')
         self.readPort.update.connect(self.readline)
 
     def readline(self, message):
-        print('Nuevo Mensaje')
         self.ui.textEdit.append(message)
 
     def connect(self):
@@ -309,31 +358,47 @@ class UI(QtWidgets.QMainWindow):
     def execute_code(self):
 
         f = open(self.filename, 'r')
-        time.sleep(2)
 
+        self.displayThread.setFileName(f)
+        self.thread3.start()
+        self.displayThread.start()
+
+
+        self.displayThread.update.connect(self.appendGcode)
+        """
         for line in f:
             lecture = line.strip()
             if not lecture.startswith('(') and not lecture.startswith('%'):
                 self.__editor.append(lecture + '\n')
-        f.close()
+                
+        """
+        # f.close()
+        # self.displayThread.stop()
+
         self.ui.playButton.clicked.connect(self.play)
 
+    def appendGcode(self, lecture):
+        self.__editor.append(lecture)
+
     def openFile(self):
-        path = '/Imagenes GCODE'
+        path = r"/home/juanes/Documentos/GitHub/CNC_DrawXY/Imagenes GCODE/"
         self.filename = QFileDialog.getOpenFileName(self, "Open file", path,
                                                     "*.gcode *.ngc *.svg")[0]
+        self.runFile()
+
+    def runFile(self):
 
         if self.filename != "":
             if self.filename.endswith('.svg'):
                 svg = cairosvg.svg2svg(
                     url=self.filename,
                     write_to='svg-converted.svg',
-                    scale=0.1
+                    scale=0.5
                 )
 
                 self.filename = 'svg-converted.svg'
 
-                print('New File Name: ' + self.filename)
+                # print('New File Name: ' + self.filename)
 
                 self.drawFiguresvg()
                 gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
@@ -342,7 +407,7 @@ class UI(QtWidgets.QMainWindow):
 
                 gcode_compiler.append_curves(curves)
                 gcode_compiler.compile_to_file("drawing.gcode", passes=2)
-                print('File Converted to gcode')
+                # print('File Converted to gcode')
                 self.filename = "drawing.gcode"
             self.drawFigure()
             self.execute_code()
@@ -368,7 +433,6 @@ class UI(QtWidgets.QMainWindow):
 
     def appendMessage(self, message):
         self.ui.textEdit.append(message)
-
 
     def resetZero(self):
         self.send_message('G10 P0 L20 X0 Y0 Z0')

@@ -845,6 +845,20 @@ height: 75%;
                        </widget>
                       </item>
                       <item>
+                       <widget class="QPushButton" name="uploadPhotoButton">
+                        <property name="text">
+                         <string>Subir Foto</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="cancelButton">
+                        <property name="text">
+                         <string>Cancelar</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
                        <widget class="QLabel" name="label_9">
                         <property name="minimumSize">
                          <size>
