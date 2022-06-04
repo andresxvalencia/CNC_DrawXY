@@ -882,9 +882,12 @@ border: 1px solid #20de07;</string>
                        <widget class="QPushButton" name="takePhotoButton">
                         <property name="minimumSize">
                          <size>
-                          <width>70</width>
+                          <width>65</width>
                           <height>0</height>
                          </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
                         </property>
                         <property name="text">
                          <string>Tomar</string>
@@ -903,6 +906,9 @@ border: 1px solid #20de07;</string>
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
                         <property name="text">
                          <string>Cargar</string>
                         </property>
@@ -916,19 +922,33 @@ border: 1px solid #20de07;</string>
                        <widget class="QPushButton" name="thresholdButton">
                         <property name="minimumSize">
                          <size>
-                          <width>60</width>
+                          <width>65</width>
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
                         <property name="text">
                          <string>Aplicar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/aplicar.svg</normaloff>:/Camera/imagenes/aplicar.svg</iconset>
                         </property>
                        </widget>
                       </item>
                       <item row="0" column="0">
                        <widget class="QPushButton" name="cancelButton">
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
                         <property name="text">
                          <string>Cancelar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/cancelar.svg</normaloff>:/Camera/imagenes/cancelar.svg</iconset>
                         </property>
                        </widget>
                       </item>
