@@ -88,7 +88,7 @@ class Readgcode(QtCore.QObject):
 
     def start(self):
         print('Is Running ha cambiado')
-        if self.isrunning == False:
+        if not self.isrunning:
             self.isrunning = True
             self.run()
 

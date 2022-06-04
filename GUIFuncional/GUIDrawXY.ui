@@ -817,7 +817,7 @@ height: 75%;
                    </attribute>
                    <layout class="QGridLayout" name="gridLayout_6">
                     <item row="0" column="0" colspan="2">
-                     <widget class="QLabel" name="label_3">
+                     <widget class="QLabel" name="photo">
                       <property name="minimumSize">
                        <size>
                         <width>179</width>
@@ -856,7 +856,7 @@ color: #186a0d;</string>
                        </widget>
                       </item>
                       <item row="1" column="0">
-                       <widget class="QLineEdit" name="inputEdit_2">
+                       <widget class="QLineEdit" name="inputThreshold">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
@@ -879,20 +879,24 @@ border: 1px solid #20de07;</string>
                     <item row="1" column="1">
                      <layout class="QGridLayout" name="gridLayout_5">
                       <item row="0" column="2">
-                       <widget class="QPushButton" name="pushButton_3">
+                       <widget class="QPushButton" name="takePhotoButton">
                         <property name="minimumSize">
                          <size>
-                          <width>60</width>
+                          <width>70</width>
                           <height>0</height>
                          </size>
                         </property>
                         <property name="text">
-                         <string>Aplicar</string>
+                         <string>Tomar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
                         </property>
                        </widget>
                       </item>
-                      <item row="0" column="0">
-                       <widget class="QPushButton" name="pushButton_2">
+                      <item row="0" column="1">
+                       <widget class="QPushButton" name="uploadPhotoButton">
                         <property name="minimumSize">
                          <size>
                           <width>70</width>
@@ -908,20 +912,23 @@ border: 1px solid #20de07;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="0" column="1">
-                       <widget class="QPushButton" name="pushButton">
+                      <item row="0" column="3">
+                       <widget class="QPushButton" name="thresholdButton">
                         <property name="minimumSize">
                          <size>
-                          <width>70</width>
+                          <width>60</width>
                           <height>0</height>
                          </size>
                         </property>
                         <property name="text">
-                         <string>Tomar</string>
+                         <string>Aplicar</string>
                         </property>
-                        <property name="icon">
-                         <iconset resource="recursos.qrc">
-                          <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QPushButton" name="cancelButton">
+                        <property name="text">
+                         <string>Cancelar</string>
                         </property>
                        </widget>
                       </item>
