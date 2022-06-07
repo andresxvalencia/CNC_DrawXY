@@ -265,7 +265,7 @@ border-radius:20px;
             </property>
             <property name="maximumSize">
              <size>
-              <width>400</width>
+              <width>500</width>
               <height>16777215</height>
              </size>
             </property>
@@ -815,50 +815,26 @@ height: 75%;
                    <attribute name="title">
                     <string>Camera</string>
                    </attribute>
-                   <layout class="QHBoxLayout" name="horizontalLayout_6">
-                    <item>
-                     <layout class="QVBoxLayout" name="verticalLayout_6">
-                      <property name="spacing">
-                       <number>20</number>
+                   <layout class="QGridLayout" name="gridLayout_6">
+                    <item row="0" column="0" colspan="2">
+                     <widget class="QLabel" name="photo">
+                      <property name="minimumSize">
+                       <size>
+                        <width>179</width>
+                        <height>240</height>
+                       </size>
                       </property>
-                      <property name="leftMargin">
-                       <number>5</number>
+                      <property name="styleSheet">
+                       <string notr="true">border-image: url(:/Camera/imagenes/defecto.png);</string>
                       </property>
-                      <property name="topMargin">
-                       <number>10</number>
+                      <property name="text">
+                       <string/>
                       </property>
-                      <property name="rightMargin">
-                       <number>5</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>10</number>
-                      </property>
-                      <item>
-                       <widget class="QPushButton" name="takePhotoButton">
-                        <property name="text">
-                         <string>Tomar Foto</string>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="recursos.qrc">
-                          <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="uploadPhotoButton">
-                        <property name="text">
-                         <string>Subir Foto</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="cancelButton">
-                        <property name="text">
-                         <string>Cancelar</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <layout class="QGridLayout" name="gridLayout_4">
+                      <item row="0" column="0">
                        <widget class="QLabel" name="label_9">
                         <property name="minimumSize">
                          <size>
@@ -879,12 +855,12 @@ color: #186a0d;</string>
                         </property>
                        </widget>
                       </item>
-                      <item>
+                      <item row="1" column="0">
                        <widget class="QLineEdit" name="inputThreshold">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>
-                          <height>0</height>
+                          <height>30</height>
                          </size>
                         </property>
                         <property name="styleSheet">
@@ -900,37 +876,79 @@ border: 1px solid #20de07;</string>
                       </item>
                      </layout>
                     </item>
-                    <item>
-                     <layout class="QVBoxLayout" name="verticalLayout_7">
-                      <property name="spacing">
-                       <number>15</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>10</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>10</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="photo">
+                    <item row="1" column="1">
+                     <layout class="QGridLayout" name="gridLayout_5">
+                      <item row="0" column="2">
+                       <widget class="QPushButton" name="takePhotoButton">
                         <property name="minimumSize">
                          <size>
-                          <width>179</width>
+                          <width>65</width>
                           <height>0</height>
                          </size>
                         </property>
                         <property name="styleSheet">
-                         <string notr="true">border-image: url(:/Camera/imagenes/defecto.png);</string>
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
                         </property>
                         <property name="text">
-                         <string/>
+                         <string>Tomar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/camera.svg</normaloff>:/Camera/imagenes/camera.svg</iconset>
                         </property>
                        </widget>
                       </item>
-                      <item>
+                      <item row="0" column="1">
+                       <widget class="QPushButton" name="uploadPhotoButton">
+                        <property name="minimumSize">
+                         <size>
+                          <width>70</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>Cargar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/cargar.svg</normaloff>:/Camera/imagenes/cargar.svg</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="3">
                        <widget class="QPushButton" name="thresholdButton">
+                        <property name="minimumSize">
+                         <size>
+                          <width>65</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
                         <property name="text">
                          <string>Aplicar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/aplicar.svg</normaloff>:/Camera/imagenes/aplicar.svg</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QPushButton" name="cancelButton">
+                        <property name="styleSheet">
+                         <string notr="true">font: 87 7.5pt &quot;Arial Black&quot;;</string>
+                        </property>
+                        <property name="text">
+                         <string>Cancelar</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="recursos.qrc">
+                          <normaloff>:/Camera/imagenes/cancelar.svg</normaloff>:/Camera/imagenes/cancelar.svg</iconset>
                         </property>
                        </widget>
                       </item>
@@ -956,7 +974,7 @@ border: 1px solid #20de07;</string>
             </property>
             <property name="maximumSize">
              <size>
-              <width>450</width>
+              <width>470</width>
               <height>16777215</height>
              </size>
             </property>

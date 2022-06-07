@@ -12,6 +12,8 @@
     <file>imagenes/x-y+.svg</file>
   </qresource>
   <qresource prefix="Camera">
+    <file>imagenes/aplicar.svg</file>
+    <file>imagenes/cancelar.svg</file>
     <file>imagenes/camera.svg</file>
     <file>imagenes/cargar.svg</file>
     <file>imagenes/defecto.png</file>
