@@ -200,6 +200,17 @@ border-radius:20px;
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="label_3">
+            <property name="styleSheet">
+             <string notr="true">font: 87 8pt &quot;Arial Black&quot;;
+color: #186a0d;</string>
+            </property>
+            <property name="text">
+             <string>SERIAL</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pushButton">
             <property name="minimumSize">
              <size>
@@ -212,7 +223,7 @@ border-radius:20px;
             </property>
             <property name="icon">
              <iconset resource="recursos.qrc">
-              <normaloff>:/Action/imagenes/wifi.svg</normaloff>:/Action/imagenes/wifi.svg</iconset>
+              <normaloff>:/Action/imagenes/serial.svg</normaloff>:/Action/imagenes/serial.svg</iconset>
             </property>
            </widget>
           </item>
