@@ -42,7 +42,7 @@ class ViewImage(QWidget):
 
         self.pil_image = pil_image.convert('L')
 
-        threshold = 120
+        threshold = 10
         img_new = self.pil_image.point(lambda x: 255 if x > threshold else 0)
         img_newFiltered = img_new.filter(ImageFilter.CONTOUR)
 
