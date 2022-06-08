@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="Jog Control">
+    <file>imagenes/lapiz_arriba.svg</file>
     <file>imagenes/flecha_abajo.svg</file>
     <file>imagenes/flecha_arriba.svg</file>
     <file>imagenes/flecha_derecha.svg</file>
@@ -12,6 +13,8 @@
     <file>imagenes/x-y+.svg</file>
   </qresource>
   <qresource prefix="Camera">
+    <file>imagenes/aplicar.svg</file>
+    <file>imagenes/cancelar.svg</file>
     <file>imagenes/camera.svg</file>
     <file>imagenes/cargar.svg</file>
     <file>imagenes/defecto.png</file>
@@ -27,6 +30,8 @@
     <file>imagenes/info.svg</file>
   </qresource>
   <qresource prefix="Action">
+    <file>imagenes/serial.svg</file>
+    <file>imagenes/wifi.svg</file>
     <file>imagenes/connect.svg</file>
     <file>imagenes/pausa1.svg</file>
     <file>imagenes/play1.svg</file>

@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtGui import *
 from PyQt5.Qsci import *
@@ -18,6 +18,10 @@ from PIL import Image, ImageQt, ImageFilter
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QTimer
 import os
+import requests
+from PyQt5.QtCore import QObject, QUrl
+from PyQt5.QtWebSockets import QWebSocket
+from PyQt5.QtNetwork import QAbstractSocket
 import GUIFuncional.recursos
 
 
@@ -62,6 +66,12 @@ class PlayThread(QtCore.QObject):
             for line in self.f:
                 lecture = line.strip()
                 if not lecture.startswith('(') and not lecture.startswith('%'):
+                    """
+                    if lecture.startswith('M3'):
+                        lecture = 'G21G91G1Z+1F5'
+                    if lecture.startswith('M5'):
+                        lecture = 'G21G91G1Z-1F5'
+                    """
                     lecture = lecture + '\n'
                     data = lecture.encode('utf-8')
                     self.serial.write(data)
@@ -87,14 +97,12 @@ class Readgcode(QtCore.QObject):
         # self.f.close()
 
     def start(self):
-        print('Is Running ha cambiado')
-        if self.isrunning == False:
+        if not self.isrunning:
             self.isrunning = True
             self.run()
 
     def run(self):
         while self.isrunning:
-            print('Ejecutando Run:')
             time.sleep(2)
             for line in self.f:
                 lecture = line.strip()
@@ -102,6 +110,50 @@ class Readgcode(QtCore.QObject):
                     lecture = lecture + '\n'
                     self.update.emit(lecture)
             self.stop()
+
+
+class sendSocket(QtCore.QObject):
+    update = QtCore.pyqtSignal(str)
+
+    def __init__(self, s):
+        super().__init__()
+        self.url = "http://192.168.0.1/command?commandText="
+        self.websocket = s
+        self.url_ws = QUrl("ws://192.168.0.1")
+        self.websocket.textMessageReceived.connect(self.onTextMsgRx)
+        self.websocket.binaryMessageReceived.connect(self.onBinMsgRx)
+        self.state = True
+
+    def setFileName(self, f):
+        self.f = f
+
+    def run(self):
+        print('Ejecutando Run...')
+        if self.websocket.state() == QAbstractSocket.SocketState.ConnectedState:
+            print('Transmitiendo...')
+            for line in self.f:
+                cmd = line.strip()
+                if not cmd.startswith('(') and not cmd.startswith('%') and not cmd == '':
+                    requests.get(self.url + cmd, timeout=5)
+                    print(cmd)
+                    self.update.emit(cmd)
+                    self.state = False
+                    while not self.state:
+                        pass
+        else:
+            print('WebSocket is not connected')
+            self.websocket.open(self.url_ws)
+
+    def onTextMsgRx(self, msg):
+        # print('Mensaje recibido:' + msg)
+        pass
+
+    def onBinMsgRx(self, msg):
+        print('Bits recibidos')
+        msg = msg.replace(b'\r', b'')
+        text = str(msg, 'iso-8859-1')
+        self.state = True
+        self.update.emit(text)
 
 
 class UI(QtWidgets.QMainWindow):
@@ -114,6 +166,8 @@ class UI(QtWidgets.QMainWindow):
 
         self.__editor = QsciScintilla()
         self.ui.codeLayout.addWidget(self.__editor)
+
+        self.pencilLabel.setText('ON')
 
         font = QFont()
         font.setFamily('Arial Black')
@@ -144,7 +198,7 @@ class UI(QtWidgets.QMainWindow):
 
         pygame.camera.init()
         cameras = pygame.camera.list_cameras()
-        self.cam = pygame.camera.Camera(cameras[0])
+        self.cam = pygame.camera.Camera(cameras[0], (40, 140))
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.showCamera)
@@ -205,17 +259,25 @@ class UI(QtWidgets.QMainWindow):
         #    self.timer.start(10)
         #    self.timer.timeout.connect(self.read)
 
+        self.websocket = QWebSocket()
+        self.websocket.connected.connect(self.onConnected)
+        # self.websocket.textMessageReceived.connect(self.onTextMsgRx)
+        # self.websocket.binaryMessageReceived.connect(self.onBinMsgRx)
+        self.url = "http://192.168.0.1/command?commandText="
+        self.url_ws = QUrl("ws://192.168.0.1")
+        self.url_ws.setPort(81)
+        self.websocket.open(self.url_ws)
+
         self.thread = QtCore.QThread()
         self.thread2 = QtCore.QThread()
         self.thread3 = QtCore.QThread()
+        self.thread4 = QtCore.QThread()
 
         self.readPort = ReadPort(self.serial)
-
         self.readPort.moveToThread(self.thread)
         self.thread.started.connect(self.readPort.run)
 
         self.playThread = PlayThread(self.serial)
-        # self.thread.quit()
         self.playThread.moveToThread(self.thread2)
         self.thread2.started.connect(self.playThread.run)
 
@@ -223,8 +285,11 @@ class UI(QtWidgets.QMainWindow):
         self.displayThread.moveToThread(self.thread3)
         self.thread3.started.connect(self.displayThread.run)
 
-        self.showImage = True
+        self.socketThread = sendSocket(self.websocket)
+        self.socketThread.moveToThread(self.thread4)
+        self.thread4.started.connect(self.socketThread.run)
 
+        self.showImage = True
         self.threshold = 100
 
         self.ui.openButton.clicked.connect(self.openFile)
@@ -234,6 +299,19 @@ class UI(QtWidgets.QMainWindow):
         self.ui.cancelButton.clicked.connect(self.cancelPhoto)
         self.ui.takePhotoButton.clicked.connect(self.savePhoto)
 
+        self.ui.TxButton.clicked.connect(self.changeName)
+
+        self.currentText = self.ui.inputTx.text()
+
+
+    def onConnected(self):
+        print("WebSocket connected")
+
+    def onTextMsgRx(self, msg):
+        print(msg)
+
+    def onBinMsgRx(self, msg):
+        print(msg)
 
     def showCamera(self):
 
@@ -306,54 +384,70 @@ class UI(QtWidgets.QMainWindow):
             # self.ui.inputEdit.setEnabled(False)
 
     def up_movement(self):
-        self.send_message('G21G91G1Y1F3000')
+        self.send_message('G21G91G1Y1F5')
         self.send_message('G90G21')
 
     def down_movement(self):
-        self.send_message('G21G91G1Y-1F3000')
+        self.send_message('G21G91G1Y-1F5')
         self.send_message('G90G21')
 
     def left_movement(self):
-        self.send_message('G21G91G1X-1F3000')
+        self.send_message('G21G91G1X-1F5')
         self.send_message('G90G21')
 
     def right_movement(self):
-        self.send_message('G21G91G1X1F3000')
+        self.send_message('G21G91G1X1F5')
         self.send_message('G90G21')
 
     def rightup_movement(self):
-        self.send_message('G21G91G1X1Y1F3000')
+        self.send_message('G21G91G1X1Y1F5')
         self.send_message('G90G21')
 
     def rightdown_movement(self):
-        self.send_message('G21G91G1X1Y-1F3000')
+        self.send_message('G21G91G1X1Y-1F5')
         self.send_message('G90G21')
 
     def leftup_movement(self):
-        self.send_message('G21G91G1X-1Y1F3000')
+        self.send_message('G21G91G1X-1Y1F10')
         self.send_message('G90G21')
 
     def leftdown_movement(self):
-        self.send_message('G21G91G1X-1Y-1F3000')
+        self.send_message('G21G91G1X-1Y-1F5')
         self.send_message('G90G21')
 
     def pencil_movement(self):
         if self.pencilLabel.text() == 'OFF':
             self.pencilLabel.setText('ON')
-            self.send_message('M03 S050')
-            # self.send_message('G90G21')
+            self.send_message('Z2')
 
         elif self.pencilLabel.text() == 'ON':
             self.pencilLabel.setText('OFF')
-            self.send_message('M05')
-            # self.send_message('G90G21')
+            self.send_message('Z-1.000000')
 
     def send_message(self, message):
-        text = self.ui.textEdit.toPlainText()
-        text += message + '\n'
-        self.ui.textEdit.setText(text)
-        data = message + '\n'
-        self.serial.write(data.encode('utf-8'))
+        self.currentText = self.ui.inputTx.text()
+
+        if self.currentText == 'SERIAL':
+            print('Ejecutando Serial')
+            text = self.ui.textEdit.toPlainText()
+            text += message + '\n'
+            self.ui.textEdit.setText(text)
+            data = message + '\n'
+            self.serial.write(data.encode('utf-8'))
+        else:
+            print('Ejecutando Wifi')
+            text = self.ui.textEdit.toPlainText()
+            text += message + '\n'
+            self.ui.textEdit.setText(text)
+            if self.websocket.state() == QAbstractSocket.SocketState.ConnectedState:
+                try:
+                    # Send command. Wait for 5 seconds
+                    requests.get(self.url + message, timeout=5)
+                except requests.ConnectTimeout:
+                    print('Connected timeout')
+            else:
+                print('WebSocket is not connected')
+                self.websocket.open(self.url_ws)
 
     def execute_code(self):
 
@@ -393,7 +487,7 @@ class UI(QtWidgets.QMainWindow):
                 svg = cairosvg.svg2svg(
                     url=self.filename,
                     write_to='svg-converted.svg',
-                    scale=0.5
+                    scale=0.4
                 )
 
                 self.filename = 'svg-converted.svg'
@@ -401,14 +495,37 @@ class UI(QtWidgets.QMainWindow):
                 # print('New File Name: ' + self.filename)
 
                 self.drawFiguresvg()
-                gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=5)
+                gcode_compiler = Compiler(interfaces.Gcode, movement_speed=1000, cutting_speed=300, pass_depth=1)
 
                 curves = parse_file(self.filename)  # Parse an svg file into geometric curves
 
                 gcode_compiler.append_curves(curves)
-                gcode_compiler.compile_to_file("drawing.gcode", passes=2)
-                # print('File Converted to gcode')
+                gcode_compiler.compile_to_file("drawing.gcode", passes=1)
                 self.filename = "drawing.gcode"
+
+            fichero = open(self.filename, 'r')
+            f = open('grafico.gcode', 'w')
+            print("Convirtiendo..." + self.filename)
+            for line in fichero:
+                comando = line.strip().replace(';', '')
+                if comando.find('Z5.000000') != -1:
+                    comando = comando.replace('Z2.000000', 'Z-1.000000')
+                elif comando.find('Z-1.000000') != -1:
+                    comando = comando.replace('Z-1.000000', 'Z2.000000')
+                elif comando.find('M3 S255') != -1:
+                    comando = comando.replace('M3 S255', 'Z2.000000')
+                elif comando.find('M5') != -1:
+                    comando = comando.replace('M5', 'Z-1.000000')
+
+                f.write(comando + '\n')
+
+            fichero.close()
+            f.close()
+
+            # print('File Converted to gcode')
+
+            self.filename = "grafico.gcode"
+
             self.drawFigure()
             self.execute_code()
 
@@ -422,14 +539,32 @@ class UI(QtWidgets.QMainWindow):
         svgWidget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.ui.svgLayout.addWidget(svgWidget)
 
+    def changeName(self):
+
+        self.currentText = self.ui.inputTx.text()
+
+        if self.currentText == 'SERIAL':
+            self.ui.inputTx.setText('WI-FI')
+            self.ui.TxButton.setIcon(QtGui.QIcon('GUIFuncional/imagenes/wifi.svg'))
+        else:
+            self.ui.inputTx.setText('SERIAL')
+            self.ui.TxButton.setIcon(QtGui.QIcon('GUIFuncional/imagenes/serial.svg'))
+
+
     def play(self):
-        # self.thread.quit()
         self.readPort.stop()
         f = open(self.filename, 'r')
-        self.playThread.setFileName(f)
-        self.thread2.start()
-        self.playThread.update.connect(self.appendMessage)
-        # f.close()
+
+        self.currentText = self.ui.inputTx.text()
+
+        if self.currentText == 'SERIAL':
+            self.playThread.setFileName(f)
+            self.thread2.start()
+            self.playThread.update.connect(self.appendMessage)
+        else:
+            self.socketThread.setFileName(f)
+            self.thread4.start()
+            self.socketThread.update.connect(self.appendMessage)
 
     def appendMessage(self, message):
         self.ui.textEdit.append(message)
@@ -438,7 +573,7 @@ class UI(QtWidgets.QMainWindow):
         self.send_message('G10 P0 L20 X0 Y0 Z0')
 
     def returnZero(self):
-        self.send_message('G21G90 G0Z5')
+        self.send_message('G21G90 G0Z2')
         self.send_message('G90 G0 X0 Y0')
         self.send_message('G90 G0 Z0')
 
