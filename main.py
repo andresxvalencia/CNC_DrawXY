@@ -66,10 +66,12 @@ class PlayThread(QtCore.QObject):
             for line in self.f:
                 lecture = line.strip()
                 if not lecture.startswith('(') and not lecture.startswith('%'):
-                    if lecture.startswith('M3 S90.0'):
-                        lecture = 'G21G91G1Z-10F3000'
+                    """
+                    if lecture.startswith('M3'):
+                        lecture = 'G21G91G1Z+1F5'
                     if lecture.startswith('M5'):
-                        lecture = 'G21G91G1Z+10F3000'
+                        lecture = 'G21G91G1Z-1F5'
+                    """
                     lecture = lecture + '\n'
                     data = lecture.encode('utf-8')
                     self.serial.write(data)
@@ -165,6 +167,8 @@ class UI(QtWidgets.QMainWindow):
         self.__editor = QsciScintilla()
         self.ui.codeLayout.addWidget(self.__editor)
 
+        self.pencilLabel.setText('ON')
+
         font = QFont()
         font.setFamily('Arial Black')
         font.setFixedPitch(True)
@@ -194,7 +198,7 @@ class UI(QtWidgets.QMainWindow):
 
         pygame.camera.init()
         cameras = pygame.camera.list_cameras()
-        self.cam = pygame.camera.Camera(cameras[0], (50, 50))
+        self.cam = pygame.camera.Camera(cameras[0], (40, 140))
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.showCamera)
@@ -380,27 +384,27 @@ class UI(QtWidgets.QMainWindow):
             # self.ui.inputEdit.setEnabled(False)
 
     def up_movement(self):
-        self.send_message('G21G91G1Y1F10')
+        self.send_message('G21G91G1Y1F5')
         self.send_message('G90G21')
 
     def down_movement(self):
-        self.send_message('G21G91G1Y-1F10')
+        self.send_message('G21G91G1Y-1F5')
         self.send_message('G90G21')
 
     def left_movement(self):
-        self.send_message('G21G91G1X-1F10')
+        self.send_message('G21G91G1X-1F5')
         self.send_message('G90G21')
 
     def right_movement(self):
-        self.send_message('G21G91G1X1F10')
+        self.send_message('G21G91G1X1F5')
         self.send_message('G90G21')
 
     def rightup_movement(self):
-        self.send_message('G21G91G1X1Y1F10')
+        self.send_message('G21G91G1X1Y1F5')
         self.send_message('G90G21')
 
     def rightdown_movement(self):
-        self.send_message('G21G91G1X1Y-1F10')
+        self.send_message('G21G91G1X1Y-1F5')
         self.send_message('G90G21')
 
     def leftup_movement(self):
@@ -408,19 +412,17 @@ class UI(QtWidgets.QMainWindow):
         self.send_message('G90G21')
 
     def leftdown_movement(self):
-        self.send_message('G21G91G1X-1Y-1F10')
+        self.send_message('G21G91G1X-1Y-1F5')
         self.send_message('G90G21')
 
     def pencil_movement(self):
         if self.pencilLabel.text() == 'OFF':
             self.pencilLabel.setText('ON')
-            self.send_message('G21G91G1Z+5F3000')
-            self.send_message('G90G21')
+            self.send_message('Z2')
 
         elif self.pencilLabel.text() == 'ON':
             self.pencilLabel.setText('OFF')
-            self.send_message('G21G91G1Z-5F3000')
-            self.send_message('G90G21')
+            self.send_message('Z-1.000000')
 
     def send_message(self, message):
         self.currentText = self.ui.inputTx.text()
@@ -485,7 +487,7 @@ class UI(QtWidgets.QMainWindow):
                 svg = cairosvg.svg2svg(
                     url=self.filename,
                     write_to='svg-converted.svg',
-                    scale=0.1
+                    scale=0.4
                 )
 
                 self.filename = 'svg-converted.svg'
@@ -499,8 +501,30 @@ class UI(QtWidgets.QMainWindow):
 
                 gcode_compiler.append_curves(curves)
                 gcode_compiler.compile_to_file("drawing.gcode", passes=1)
-                # print('File Converted to gcode')
                 self.filename = "drawing.gcode"
+
+            fichero = open(self.filename, 'r')
+            f = open('grafico.gcode', 'w')
+            print("Convirtiendo..." + self.filename)
+            for line in fichero:
+                comando = line.strip().replace(';', '')
+                if comando.find('Z5.000000') != -1:
+                    comando = comando.replace('Z2.000000', 'Z-1.000000')
+                elif comando.find('Z-1.000000') != -1:
+                    comando = comando.replace('Z-1.000000', 'Z2.000000')
+                elif comando.find('M3 S255') != -1:
+                    comando = comando.replace('M3 S255', 'Z2.000000')
+                elif comando.find('M5') != -1:
+                    comando = comando.replace('M5', 'Z-1.000000')
+
+                f.write(comando + '\n')
+
+            fichero.close()
+            f.close()
+
+            # print('File Converted to gcode')
+
+            self.filename = "grafico.gcode"
 
             self.drawFigure()
             self.execute_code()
@@ -549,7 +573,7 @@ class UI(QtWidgets.QMainWindow):
         self.send_message('G10 P0 L20 X0 Y0 Z0')
 
     def returnZero(self):
-        self.send_message('G21G90 G0Z5')
+        self.send_message('G21G90 G0Z2')
         self.send_message('G90 G0 X0 Y0')
         self.send_message('G90 G0 Z0')
 
